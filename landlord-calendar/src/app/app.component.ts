@@ -58,6 +58,17 @@ export class AppComponent implements AfterViewInit {
 
   constructor(private renderer: Renderer2, public dialog: MatDialog, private viewContainer: ViewContainerRef) {
 
+    const agent1 = new Agent();
+    const agent2 = new Agent();
+    agent1.name = 'Lennart';
+    agent2.name = 'Lara';
+    this.agents = [agent1, agent2];
+
+    const property1 = new Property();
+    const property2 = new Property();
+    property1.propertyName = 'Cinderellas Schloss';
+    property2.propertyName = 'Villa Kunterbunt';
+    this.properties = [property1, property2];
   }
   
 
