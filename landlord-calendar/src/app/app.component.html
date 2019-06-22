@@ -1,35 +1,35 @@
-<!-- <form > -->
-    <!-- <div > -->
-      <div class="header">
-      <!-- <input class="headerItems" type="text" matInput [formControl]="myControl"> -->
-  <mat-form-field>
-      <input class="headerItems" type="text" matInput> 
-  </mat-form-field>
+<div class="header">
+    <mat-form-field>
+        <mat-label>All properties</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let property of properties" [value]="property.propertyName">
+            {{property.propertyName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field style="margin-left: 2em;">
+          <mat-label>All agents</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let agent of agents" [value]="agent.name">
+              {{agents.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
+</div>
+<div class="uppersmallbox">
+    <div class="calendar-wrapper">
+      <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
+        (selectedChange)="onDateChanged($event)"></mat-calendar>
     </div>
-    <div class="uppersmallbox">
-      <!-- <div class="calendar-wrapper">
-        <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
-          (selectedChange)="onDateChanged($event)"></mat-calendar>
-      </div> -->
-      <!--date picker-->
-      <!-- <input matInput [matDatepicker]="dp" placeholder="Verbose datepicker" [formControl]="date">
-            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-            <mat-datepicker #dp></mat-datepicker> -->
-    </div>
-    <div class="lowersmallbox">
+</div>
+<div class="lowersmallbox">
 
-    </div>
-    <div class="mainbox">
-       
-        <!-- <ng-container *ngTemplateOutlet="calendarTemplate ? calendarTemplate : empty"></ng-container> -->
-  
-    </div>
-    <div class="footer">
+</div>
+<div class="mainbox">
+    <ng-container *ngTemplateOutlet="calendarTemplate ? calendarTemplate : empty"></ng-container>
+</div>
+<div class="footer">
+</div>
 
-    </div>
-
-    <!-- </div> -->
-    
-
-<!-- </form> -->

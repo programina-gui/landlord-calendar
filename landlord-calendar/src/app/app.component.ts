@@ -9,6 +9,7 @@ import { AppointmentOverviewComponent } from './modals/appointment-overview/appo
 import { Property } from './models/property.model';
 import { Appointment } from './models/appointment.model';
 import { Agent } from './models/agent.model';
+import { FormControl } from '@angular/forms';
 
 
 export const MY_FORMATS = {
@@ -40,8 +41,10 @@ export class AppComponent implements AfterViewInit {
   appointment: Appointment = new Appointment();
   property: Property = new Property();
   agent: Agent = new Agent();
-  
-  // date = new FormControl(moment());
+  properties: Property[];
+  agents: Agent[];
+  // TO DO: Inhalt von moment
+  date = new FormControl(moment());
   
   @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
   isValidMoment: boolean = false;
@@ -49,8 +52,8 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('calendar') calendar: MatCalendar<Moment>;
   selectedDate: Moment;
 
-  // @Input()
-  // calendarTemplate: TemplateRef<any>;
+  @Input()
+  calendarTemplate: TemplateRef<any>;
 
 
   constructor(private renderer: Renderer2, public dialog: MatDialog, private viewContainer: ViewContainerRef) {
@@ -97,18 +100,15 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(){
-     // Find all arrow buttons in the calendar
     let buttons = document.querySelectorAll('mat-calendar mat-calendar-header button');
-
     if (buttons) {
-      // Listen for click event
       Array.from(buttons).forEach(button => {
         this.renderer.listen(button, "click", () => {
-          alert('Arrow button clicked');
         });
       })
     }
      
+    // FIX ME
     // this.picker._selectedChanged.subscribe(
     //   (newDate: Moment) => {
     //     this.isValidMoment = moment.isMoment(newDate);

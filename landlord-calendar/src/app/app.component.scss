@@ -2,47 +2,47 @@
 	display: grid;
 	grid-template-columns: 0.2fr 1fr 1fr 1fr 0.2fr;
 	grid-template-rows: 100pt 250pt 250pt 50pt;
-	grid-column-gap: 10px;
-	grid-row-gap: 10px;
+	grid-column-gap: 0.1px;
+	grid-row-gap: 0.1px;
 	grid-template-areas: " . header header header . " 
 						". uppersmallbox mainbox mainbox ."
 						".  lowersmallbox mainbox mainbox ."
 						" . footer footer footer . ";
 	justify-items: center;
 }
-// .grid div {
-// 	padding: 40pt;
-
-// }
 
 .calendar-wrapper {
-    width: 300px;
+    max-width: 80%;
 }
 
 .header {
    grid-area: header;
    justify-self: left;
-	background: #945385;
+	// background: #945385;
 	width: 100%;
 	height: 100%;
 }
 .uppersmallbox {
 	grid-area: uppersmallbox;
 	justify-self: center;
-	background: #004385;
-	width: 100%;
+	text-align: center;
+	// background: #004385;
+    border: 0.5pt solid grey;
+    width: 100%;
 	height: 100%;
 }
 .lowersmallbox {
 	grid-area: lowersmallbox;
 	justify-self: center;
-	background: #031a6b;
-	width: 100%;
-	height: 100%;
+	// background: #031a6b;
+    border: 0.5pt solid grey;
+    width: 100%;
+    height: 100%;
 }
 .mainbox {
 	grid-area: mainbox;
-	background: #89023e;
+	// background: #89023e;
+	border: 0.5pt solid grey;
 	justify-self: center;
 	width: 100%;
 	height: 100%;
