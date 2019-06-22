@@ -1,0 +1,51 @@
+.grid {
+	display: grid;
+	grid-template-columns: 0.5fr 1fr 1fr 1fr 0.5fr;
+	grid-template-rows: 100pt 250pt 250pt 50pt;
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+	grid-template-areas: " . header header header . " 
+						". uppersmallbox mainbox mainbox ."
+						".  lowersmallbox mainbox mainbox ."
+						" . footer footer footer . ";
+	justify-items: center;
+}
+// .grid div {
+// 	padding: 40pt;
+
+// }
+
+.calendar-wrapper {
+    width: 300px;
+}
+
+.header {
+   grid-area: header;
+	text-align: center;
+	background: #945385;
+}
+.uppersmallbox {
+	grid-area: uppersmallbox;
+	grid-column: 1/4;
+	grid-row: 2/3;
+    background: #004385;
+}
+.lowersmallbox {
+	grid-area: lowersmallbox;
+	grid-column: 1/4;
+	grid-row: 3/5;
+    background: #031a6b;
+}
+.mainbox {
+	grid-area: mainbox;
+	grid-column: 4/7;
+	grid-row: 1/5;
+    background: #89023e;
+}
+
+.footer {
+	grid-area: footer;
+	grid-column: 1/7;
+	grid-row: 5/6;
+	justify-self: left;
+}
