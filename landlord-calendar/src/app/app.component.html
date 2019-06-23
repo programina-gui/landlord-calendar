@@ -19,7 +19,7 @@
 
 </div>
 <div class="uppersmallbox">
-    <div class="calendar-wrapper">
+    <div id="calendar">
       <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
         (selectedChange)="onDateChanged($event)"></mat-calendar>
     </div>
@@ -29,7 +29,7 @@
 </div>
 <div class="mainbox">
     <ng-container >
-      <app-calendar-week-view class="calendar-wrapper"></app-calendar-week-view>
+      <app-calendar-week-view id="scheduler"></app-calendar-week-view>
     </ng-container>
 </div>
 <div class="footer">
