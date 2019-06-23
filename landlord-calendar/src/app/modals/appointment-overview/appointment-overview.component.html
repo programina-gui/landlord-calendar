@@ -1,0 +1,32 @@
+<div class="header">
+
+</div>
+<div class="upperbox">
+    <div class="flexContainer">
+            <div *ngFor="let appointment of appointments" class="flexElement"></div>
+            <div class="flexElement" style="
+            margin-top: 10pt;">
+                <button mat-button color="primary" class="viewingButton" (click)="apply()">
+                    <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+                    Viewing
+                </button>
+            </div>
+    </div>
+</div>
+<div class="lowerbox">
+    <div class="flexContainer">
+        <div *ngFor="let appointment of appointments" class="flexElement"></div>
+        <div class="flexElement" style="
+        margin-top: 10pt;">
+            <button mat-button color="primary" class="viewingButton" (click)="apply()">
+                <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+                Viewing
+            </button>
+        </div>
+    </div>
+
+</div>
+<div class="footer">
+    <button mat-button (click)="close()">Close</button>
+
+</div>

@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
-
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -34,6 +33,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppointmentOverviewComponent } from './modals/appointment-overview/appointment-overview.component';
 import { CalendarWeekViewComponent } from './templates/calendar-week-view/calendar-week-view.component';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +43,7 @@ import { CalendarWeekViewComponent } from './templates/calendar-week-view/calend
   ],
   imports: [
     BrowserModule, 
+    GraphQLModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -82,7 +83,7 @@ import { CalendarWeekViewComponent } from './templates/calendar-week-view/calend
     MatTooltipModule
   ],
   providers: [ ],
-  exports: [ CalendarWeekViewComponent ],
+  exports: [ ],
   entryComponents: [ AppointmentOverviewComponent ],
   bootstrap: [AppComponent]
 })

@@ -12,7 +12,10 @@
 }
 
 .calendar-wrapper {
-    max-width: 80%;
+	display: flex;
+	width: inherit;
+	height: inherit;
+	overflow: scroll;
 }
 
 .header {

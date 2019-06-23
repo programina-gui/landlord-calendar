@@ -28,7 +28,9 @@
 
 </div>
 <div class="mainbox">
-    <ng-container *ngTemplateOutlet="calendarTemplate ? calendarTemplate : empty"></ng-container>
+    <ng-container >
+      <app-calendar-week-view class="calendar-wrapper"></app-calendar-week-view>
+    </ng-container>
 </div>
 <div class="footer">
 </div>

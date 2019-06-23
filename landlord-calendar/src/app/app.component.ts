@@ -4,8 +4,8 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { MatDatepicker, MatCalendar, MatDialog } from '@angular/material';
-import { CalendarWeekViewComponent, CalendarData } from './templates/calendar-week-view/calendar-week-view.component';
-import { AppointmentOverviewComponent } from './modals/appointment-overview/appointment-overview.component';
+import { CalendarData } from './templates/calendar-week-view/calendar-week-view.component';
+import { AppointmentOverviewComponent, DialogData } from './modals/appointment-overview/appointment-overview.component';
 import { Property } from './models/property.model';
 import { Appointment } from './models/appointment.model';
 import { Agent } from './models/agent.model';
@@ -36,7 +36,6 @@ export const MY_FORMATS = {
 })
 export class AppComponent implements AfterViewInit {
 
-  data = new CalendarData();
   title = 'landlord-calendar';
   appointment: Appointment = new Appointment();
   property: Property = new Property();
@@ -73,29 +72,39 @@ export class AppComponent implements AfterViewInit {
   
 
   monthSelected(date) {
-    alert(`Selected: ${date}`);
+    console.log(`Selected: ${date}`);
+    this.openDialog(date);
   }
 
   onDateChanged(date) {
-    alert(`Selected: ${date}`);
+    console.log(`Selected: ${date}`);
+    this.openDialog(date);
   }
 
-  openDialog(): void {
+  openDialog(date?: string): void {
 
     // mockdata: 
     this.agent.firstName = 'Hans';
     this.agent.name = 'Peter';
     this.agent.title = 'Agent';
-    this.appointment.date = '01.02.2019';
+    if (date) {
+      this.appointment.date = date;
+    } else {
+        this.appointment.date = '01.02.2019';
+    }
+ 
     this.appointment.time = '18:00h';
     this.property.street = 'Musterstraße';
     this.property.houseNumber = '3';
     this.property.zipCode = '12335';
+    
+    const data: DialogData = {
+        appointments: [this.appointment], 
+        properties: [this.property], 
+        agents: [this.agent]
+      }
 
-    const dialogRef = this.dialog.open(AppointmentOverviewComponent, {
-      width: '250px',
-      data: {appointment: this.appointment, property: this.property, agent: this.agent}
-    });
+    const dialogRef = this.dialog.open(AppointmentOverviewComponent, { data });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

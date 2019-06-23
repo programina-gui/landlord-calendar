@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input, TemplateRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Appointment } from 'src/app/models/appointment.model';
 import { Property } from 'src/app/models/property.model';
@@ -6,9 +6,9 @@ import { Agent } from 'src/app/models/agent.model';
 
 
 export interface DialogData {
-  appointment: Appointment;
-    property: Property;
-    agent: Agent;
+  appointments: Appointment [];
+    properties: Property[];
+    agents: Agent[];
   }
 
   @Component({
@@ -17,15 +17,18 @@ export interface DialogData {
   styleUrls: ['./appointment-overview.component.scss']
 })
 export class AppointmentOverviewComponent {
+  appointments: Appointment[];
 
   constructor( public dialogRef: MatDialogRef<AppointmentOverviewComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+      this.appointments = this.data.appointments;
+    }
 
     apply() {
       this.dialogRef.close(true);
     }
     
-    onNoClick(): void {
+    close(): void {
       this.dialogRef.close();
     }
 
