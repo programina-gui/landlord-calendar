@@ -33,7 +33,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppointmentOverviewComponent } from './modals/appointment-overview/appointment-overview.component';
 import { CalendarWeekViewComponent } from './templates/calendar-week-view/calendar-week-view.component';
-import { GraphQLModule } from './graphql.module';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +43,6 @@ import { GraphQLModule } from './graphql.module';
   ],
   imports: [
     BrowserModule, 
-    GraphQLModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({
       provide: DateAdapter,

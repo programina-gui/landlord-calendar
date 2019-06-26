@@ -1,31 +1,32 @@
 <div class="header">
-
+    <div>{{appointments.nodes.appointment.date}}</div>
+    <div>{{appointments.hourRange}}</div>
+    <div></div>
+    <button mat-button [disabled]="!appointments.page.hasPrev" >
+        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+        prev
+    </button>
+    <button mat-button [disabled]="!appointments.page.hasNext" >
+        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+        next
+    </button>
 </div>
-<div class="upperbox">
-    <div class="flexContainer">
-            <div *ngFor="let appointment of appointments" class="flexElement"></div>
-            <div class="flexElement" style="
-            margin-top: 10pt;">
+    <div *ngFor="let appointment of appointmentsArray"  class="flexContainer">
+            <div class="flexElement" style=" margin-top: 10pt;">
+                <div></div>
+                <div >
+                    <div>{{appointment.date}}</div>
+                    <div>{{appointment.time}}</div>
+                    <div>{{appointment.attendeeCount}} | {{appointment.maxInviteeCount}}</div>
+                </div>
+                
                 <button mat-button color="primary" class="viewingButton" (click)="apply()">
                     <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
                     Viewing
                 </button>
             </div>
     </div>
-</div>
-<div class="lowerbox">
-    <div class="flexContainer">
-        <div *ngFor="let appointment of appointments" class="flexElement"></div>
-        <div class="flexElement" style="
-        margin-top: 10pt;">
-            <button mat-button color="primary" class="viewingButton" (click)="apply()">
-                <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
-                Viewing
-            </button>
-        </div>
-    </div>
 
-</div>
 <div class="footer">
     <button mat-button (click)="close()">Close</button>
 

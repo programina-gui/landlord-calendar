@@ -1,14 +1,13 @@
 :host {
     height: 70vh;
-    width: 80vw;
+    width: 60vw;
 	display: grid;
 	grid-template-columns: 0.2fr 1fr 1fr 1fr 0.2fr;
-	grid-template-rows: 1fr 2fr 2fr 50pt;
+	grid-template-rows: 1fr 2fr 50pt;
 	grid-column-gap: 0.1px;
 	grid-row-gap: 15pt;
 	grid-template-areas: " . header header header . " 
-						". upperbox upperbox upperbox ."
-						".  lowerbox lowerbox lowerbox ."
+						". box box box ."
 						" . footer footer footer . ";
 	justify-items: center;
 }
@@ -24,20 +23,6 @@
 	width: 100%;
 	height: 100%;
 }
-.upperbox {
-	grid-area: upperbox;
-	text-align: center;
-    border: 0.5pt solid grey;
-    width: 100%;
-	height: 100%;
-}
-.lowerbox {
-	grid-area: lowerbox;
-	text-align: center;
-    border: 0.5pt solid grey;
-    width: 100%;
-    height: 100%;
-}
 
 .flexContainer {
     display: flex;
@@ -47,10 +32,11 @@
 }
 
 .flexElement {
+    grid-area: upperbox;
     margin-bottom: 1em;
     border: 0.5pt solid grey;
-    height: 3rem;
-    width: auto;
+    width: 100%;
+	height: 100%;
     text-align: center;
 }
 

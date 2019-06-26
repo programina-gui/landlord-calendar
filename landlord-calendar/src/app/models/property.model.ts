@@ -1,9 +1,11 @@
+import { User } from "./user.model";
+import { Address } from "./address.model";
+
 export class Property {
 
-    propertyName: string;
-    street: string;
-    houseNumber: string;
-    city: string;
-    zipCode: string;
-    country: string;
+    name: string;
+    inviteeCount: number;
+    address: Address = new Address();
+    user: User = new User();
+
 } 

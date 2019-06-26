@@ -4,12 +4,12 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { MatDatepicker, MatCalendar, MatDialog } from '@angular/material';
-import { CalendarData } from './templates/calendar-week-view/calendar-week-view.component';
 import { AppointmentOverviewComponent, DialogData } from './modals/appointment-overview/appointment-overview.component';
 import { Property } from './models/property.model';
 import { Appointment } from './models/appointment.model';
-import { Agent } from './models/agent.model';
 import { FormControl } from '@angular/forms';
+import { Appointments } from './models/appointments.model';
+import { User } from './models/user.model';
 
 
 export const MY_FORMATS = {
@@ -39,9 +39,10 @@ export class AppComponent implements AfterViewInit {
   title = 'landlord-calendar';
   appointment: Appointment = new Appointment();
   property: Property = new Property();
-  agent: Agent = new Agent();
+  agent: User = new User();
+  appointments: Appointments = new Appointments();
+  agents: User[];
   properties: Property[];
-  agents: Agent[];
   // TO DO: Inhalt von moment
   date = new FormControl(moment());
   
@@ -57,16 +58,18 @@ export class AppComponent implements AfterViewInit {
 
   constructor(private renderer: Renderer2, public dialog: MatDialog, private viewContainer: ViewContainerRef) {
 
-    const agent1 = new Agent();
-    const agent2 = new Agent();
-    agent1.name = 'Lennart';
-    agent2.name = 'Lara';
+    const agent1 = new User();
+    const agent2 = new User();
+    agent1.name = 'Max';
+    agent1.firstName = 'Max'
+    agent2.firstName = 'Max';
+    agent2.name = 'Mustermann';
     this.agents = [agent1, agent2];
 
     const property1 = new Property();
     const property2 = new Property();
-    property1.propertyName = 'Cinderellas Schloss';
-    property2.propertyName = 'Villa Kunterbunt';
+    property1.name = '2 Zimmer in Stendal';
+    property2.name = 'Flat ohne name';
     this.properties = [property1, property2];
   }
   
@@ -84,24 +87,20 @@ export class AppComponent implements AfterViewInit {
   openDialog(date?: string): void {
 
     // mockdata: 
-    this.agent.firstName = 'Hans';
-    this.agent.name = 'Peter';
-    this.agent.title = 'Agent';
-    if (date) {
-      this.appointment.date = date;
-    } else {
-        this.appointment.date = '01.02.2019';
-    }
- 
-    this.appointment.time = '18:00h';
-    this.property.street = 'Musterstraße';
-    this.property.houseNumber = '3';
-    this.property.zipCode = '12335';
-    
+    const appointment1 = new Appointment();
+    appointment1.attendeeCount = this.appointments.nodes.appointment.attendeeCount = 2;
+    appointment1.date = this.appointments.nodes.appointment.date = '2019-03-09T11:00:00.000+0000';
+    appointment1.maxInviteeCount = this.appointments.nodes.appointment.maxInviteeCount = 3;
+    appointment1.property.address.street = 'Karlhagenbeckstr';
+    appointment1.property.address.houseNumber = 31;
+    appointment1.property.name = '2 Zimmer in Stendal';
+    const hourRange = '10-11';
+    this.appointments.hourRange = hourRange;
+    const appointments = [appointment1];
+
     const data: DialogData = {
-        appointments: [this.appointment], 
-        properties: [this.property], 
-        agents: [this.agent]
+        appointments: this.appointments,
+        appointmentArray: appointments
       }
 
     const dialogRef = this.dialog.open(AppointmentOverviewComponent, { data });
@@ -128,6 +127,7 @@ export class AppComponent implements AfterViewInit {
       })
     }
      
+    // TO DO: Connect small calendar to big calendar
     // FIX ME
     // this.picker._selectedChanged.subscribe(
     //   (newDate: Moment) => {

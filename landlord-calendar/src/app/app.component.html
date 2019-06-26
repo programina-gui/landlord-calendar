@@ -2,8 +2,8 @@
     <mat-form-field>
         <mat-label>All properties</mat-label>
         <mat-select>
-          <mat-option *ngFor="let property of properties" [value]="property.propertyName">
-            {{property.propertyName}}
+          <mat-option *ngFor="let property of properties" [value]="property.propertyname">
+            {{property.propertyname}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -11,8 +11,9 @@
       <mat-form-field style="margin-left: 2em;">
           <mat-label>All agents</mat-label>
           <mat-select>
+            <!-- todo: create datawrapper with getter and setter -->
             <mat-option *ngFor="let agent of agents" [value]="agent.name">
-              {{agent.name}}
+              {{agent.firstName}}  {{agent.name}} 
             </mat-option>
           </mat-select>
         </mat-form-field>
