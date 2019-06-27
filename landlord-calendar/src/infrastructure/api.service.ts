@@ -12,35 +12,16 @@ import { map } from 'rxjs/operators';
 export class ApiService {
 
   url = './../app/data.json';
+// url = 'https://swapi.co/api/people/6/';
   constructor(private http: HttpClient) { }
 
 
-    getThis(httpBackend: HttpBackend): Observable<Appointments> {
+//   Variante 3
+    // getThis(): Observable<any> {
 
-    return new Observable<Appointments> (
+    //     return this.http.get(this.url, { responseType: 'json' });
 
-        observer => {
-
-            const nonInterceptedJSONHTTPClient: HttpClient = new HttpClient(httpBackend);
-            nonInterceptedJSONHTTPClient.get(this.url, { responseType: 'json' }).subscribe(result => {
-                const appoints = result as Appointments;
-
-                observer.next(appoints);
-
-                observer.complete();
-
-            }, error => {
-
-                console.error(error);
-                observer.error(error);
-
-            });
-
-        }
-
-    );
-
-}
+    // }
 
 // Variante 1
 

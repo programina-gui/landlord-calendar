@@ -12,19 +12,21 @@
           <mat-label>All agents</mat-label>
           <mat-select>
             <!-- todo: create datawrapper with getter and setter -->
-            <mat-option *ngFor="let agent of agents" [value]="agent.name">
+            <!-- <mat-option *ngFor="let agent of agents" [value]="agent.name">
               {{agent.firstName}}  {{agent.name}} 
-            </mat-option>
+            </mat-option> -->
           </mat-select>
         </mat-form-field>
-
+ <button (click)="getAppointment()">HTTP</button>
+    <div *ngFor="let apt of posts | async">
+      {{apt | json}}</div>
 </div>
 <div class="uppersmallbox">
     <div id="calendar">
       <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
         (selectedChange)="onDateChanged($event)"></mat-calendar>
     </div>
-    <!-- <div>{{appointmentObservable$ | async | json}}</div> -->
+   
 </div>
 <div class="lowersmallbox">
 

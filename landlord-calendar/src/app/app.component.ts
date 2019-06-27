@@ -12,9 +12,9 @@ import { Appointments } from './models/appointments.model';
 import { User } from './models/user.model';
 import { ApiService } from '../infrastructure/api.service';
 
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { pipe, Observable } from 'rxjs';
-import { HttpBackend } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 
 
 export const MY_FORMATS = {
@@ -40,7 +40,9 @@ export const MY_FORMATS = {
   ]
 })
 export class AppComponent implements AfterViewInit, OnInit {
-  
+  posts: any;
+  // url = './models/data.json';
+  url = 'https://jsonplaceholder.typicode.com/posts';
   title = 'landlord-calendar';
   appointment: Appointment = new Appointment();
   appointmentArray: Appointments[];
@@ -62,7 +64,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   calendarTemplate: TemplateRef<any>;
 
 
-  constructor(private renderer: Renderer2,  private httpBackend: HttpBackend, public dialog: MatDialog, private viewContainer: ViewContainerRef, private apiService: ApiService ) {
+  constructor(private renderer: Renderer2, private http: HttpClient, public dialog: MatDialog, private viewContainer: ViewContainerRef, private apiService: ApiService ) {
 
     const agent1 = new User();
     const agent2 = new User();
@@ -125,6 +127,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
   }
 
+  getAppointment(){
+    this.posts = this.http.get(this.url, { responseType: 'json' })
+  }
+
   ngAfterViewInit(){
     let buttons = document.querySelectorAll('mat-calendar mat-calendar-header button');
     if (buttons) {
@@ -136,7 +142,20 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getThis(this.httpBackend);
+
+    // this.http.get(this.url, { responseType: 'json' }).pipe(
+
+    //   map(apt => apt = this.appointments)
+    //   // map(nodes => nodes.appointment = this.appointments.nodes.appointment)
+    // );
+   
+    // Variante 3
+    // this.apiService.getThis().pipe(
+    //   map(apt => apt.nodes = this.appointments.nodes)
+    //   // map(nodes => nodes.appointment = this.appointments.nodes.appointment)
+    // );
+
+    // Variante 2
     // this.appointmentObservable$ = 
     // const apiElement = this.apiService.getElement();
 
