@@ -33,7 +33,8 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppointmentOverviewComponent } from './modals/appointment-overview/appointment-overview.component';
 import { CalendarWeekViewComponent } from './templates/calendar-week-view/calendar-week-view.component';
-
+import { ApiService } from '../infrastructure/api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CalendarWeekViewComponent } from './templates/calendar-week-view/calend
   ],
   imports: [
     BrowserModule, 
+    HttpClientModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -81,7 +83,7 @@ import { CalendarWeekViewComponent } from './templates/calendar-week-view/calend
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [ ],
+  providers: [ ApiService ],
   exports: [ ],
   entryComponents: [ AppointmentOverviewComponent ],
   bootstrap: [AppComponent]

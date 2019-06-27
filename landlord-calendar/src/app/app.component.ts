@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, Renderer2, TemplateRef, ViewContainerRef, Input } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ViewChild, Renderer2, TemplateRef, ViewContainerRef, Input } from '@angular/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { Moment } from 'moment';
@@ -10,6 +10,11 @@ import { Appointment } from './models/appointment.model';
 import { FormControl } from '@angular/forms';
 import { Appointments } from './models/appointments.model';
 import { User } from './models/user.model';
+import { ApiService } from '../infrastructure/api.service';
+
+import { map } from 'rxjs/operators';
+import { pipe, Observable } from 'rxjs';
+import { HttpBackend } from '@angular/common/http';
 
 
 export const MY_FORMATS = {
@@ -34,11 +39,12 @@ export const MY_FORMATS = {
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ]
 })
-export class AppComponent implements AfterViewInit {
-
+export class AppComponent implements AfterViewInit, OnInit {
+  
   title = 'landlord-calendar';
   appointment: Appointment = new Appointment();
-  property: Property = new Property();
+  appointmentArray: Appointments[];
+  // appointmentObservable$: Observable<Appointments[]>;
   agent: User = new User();
   appointments: Appointments = new Appointments();
   agents: User[];
@@ -56,7 +62,7 @@ export class AppComponent implements AfterViewInit {
   calendarTemplate: TemplateRef<any>;
 
 
-  constructor(private renderer: Renderer2, public dialog: MatDialog, private viewContainer: ViewContainerRef) {
+  constructor(private renderer: Renderer2,  private httpBackend: HttpBackend, public dialog: MatDialog, private viewContainer: ViewContainerRef, private apiService: ApiService ) {
 
     const agent1 = new User();
     const agent2 = new User();
@@ -89,6 +95,7 @@ export class AppComponent implements AfterViewInit {
     // mockdata: 
     const appointment1 = new Appointment();
     appointment1.attendeeCount = this.appointments.nodes.appointment.attendeeCount = 2;
+    // TO DO Add function to trim off everything after "T"
     appointment1.date = this.appointments.nodes.appointment.date = '2019-03-09T11:00:00.000+0000';
     appointment1.maxInviteeCount = this.appointments.nodes.appointment.maxInviteeCount = 3;
     appointment1.property.address.street = 'Karlhagenbeckstr';
@@ -126,6 +133,23 @@ export class AppComponent implements AfterViewInit {
         });
       })
     }
+  }
+
+  ngOnInit() {
+    this.apiService.getThis(this.httpBackend);
+    // this.appointmentObservable$ = 
+    // const apiElement = this.apiService.getElement();
+
+    //  map(appointment => this.appointments[0] = appointment )
+
+        // tap( console.log()),
+
+        // this.appointmentArray[0] = this.appointments;
+    // )
+  
+    // console.log(apiElement);
+    console.log(this.appointments);
+  }
      
     // TO DO: Connect small calendar to big calendar
     // FIX ME
@@ -137,5 +161,5 @@ export class AppComponent implements AfterViewInit {
     //     throw Error(error);
     //   }
     // );
-  }
+  // }
 }
