@@ -1,27 +1,35 @@
 import { Injectable } from '@angular/core';
 import { NewObject } from './abstract-object-models/new-object.model';
-import { HttpClient, HttpBackend } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Appointments } from '../app/models/appointments.model';
 import { Appointment } from 'src/app/models/appointment.model';
 import { map } from 'rxjs/operators';
+import { Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApiService {
 
-  url = './../app/data.json';
+  url = 'assets/data.json';
+ 
 // url = 'https://swapi.co/api/people/6/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    console.log(this.url);
+  }
 
 
 //   Variante 3
-    // getThis(): Observable<any> {
+    getThis(): Observable<any> {
 
-    //     return this.http.get(this.url, { responseType: 'json' });
+        return this.http.get(this.url, { responseType: 'json' }).pipe(
+            map( (response: Response) => { 
+                return response.json()})
+        )
 
-    // }
+    }
 
 // Variante 1
 

@@ -14,7 +14,7 @@ import { ApiService } from '../infrastructure/api.service';
 
 import { map, switchMap } from 'rxjs/operators';
 import { pipe, Observable } from 'rxjs';
-import { HttpBackend, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 
 export const MY_FORMATS = {
@@ -42,7 +42,7 @@ export const MY_FORMATS = {
 export class AppComponent implements AfterViewInit, OnInit {
   posts: any;
   // url = './models/data.json';
-  url = 'https://jsonplaceholder.typicode.com/posts';
+  // url = 'https://jsonplaceholder.typicode.com/posts';
   title = 'landlord-calendar';
   appointment: Appointment = new Appointment();
   appointmentArray: Appointments[];
@@ -127,9 +127,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
   }
 
-  getAppointment(){
-    this.posts = this.http.get(this.url, { responseType: 'json' })
-  }
+  // getAppointment(){
+  //   this.posts = this.http.get('models/data.json', { responseType: 'json' });
+  // }
 
   ngAfterViewInit(){
     let buttons = document.querySelectorAll('mat-calendar mat-calendar-header button');
@@ -142,6 +142,11 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
+
+    this.apiService.getThis().pipe(
+        map(apt => apt = this.appointments)
+        // map(nodes => nodes.appointment = this.appointments.nodes.appointment)
+      );
 
     // this.http.get(this.url, { responseType: 'json' }).pipe(
 
