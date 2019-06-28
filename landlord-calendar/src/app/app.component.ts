@@ -12,9 +12,9 @@ import { Appointments } from './models/appointments.model';
 import { User } from './models/user.model';
 import { ApiService } from '../infrastructure/api.service';
 
-import { map, switchMap } from 'rxjs/operators';
-import { pipe, Observable } from 'rxjs';
+import { map, switchMap, tap, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { pipe, Observable } from 'rxjs';
 
 
 export const MY_FORMATS = {
@@ -41,8 +41,8 @@ export const MY_FORMATS = {
 })
 export class AppComponent implements AfterViewInit, OnInit {
   posts: any;
-  // url = './models/data.json';
-  // url = 'https://jsonplaceholder.typicode.com/posts';
+  // url = './../assets/data.json';
+  url = 'https://jsonplaceholder.typicode.com/posts';
   title = 'landlord-calendar';
   appointment: Appointment = new Appointment();
   appointmentArray: Appointments[];
@@ -53,7 +53,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   properties: Property[];
   // TO DO: Inhalt von moment
   date = new FormControl(moment());
-  
+
   @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
   isValidMoment: boolean = false;
 
@@ -63,6 +63,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   @Input()
   calendarTemplate: TemplateRef<any>;
 
+  test$: Observable<Object>;
 
   constructor(private renderer: Renderer2, private http: HttpClient, public dialog: MatDialog, private viewContainer: ViewContainerRef, private apiService: ApiService ) {
 
@@ -127,9 +128,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
   }
 
-  // getAppointment(){
-  //   this.posts = this.http.get('models/data.json', { responseType: 'json' });
-  // }
+  getAppointment(){
+    this.posts = this.http.get(this.url, { responseType: 'json' });
+  }
 
   ngAfterViewInit(){
     let buttons = document.querySelectorAll('mat-calendar mat-calendar-header button');
@@ -140,13 +141,30 @@ export class AppComponent implements AfterViewInit, OnInit {
       })
     }
   }
-
+  gehdochmal(x2: any): Observable<Object> {
+    console.log(x2['data']['appointments']['page']);
+    return new Observable<{}>();
+  }
   ngOnInit() {
+  //   this.appointmentArray  = [new Appointments()];
+    // this.apiService.getObject().pipe(
+    //   map(apt =>  this.gehdochmal()))
+      // switchMap( apt => apt. = this.appointments.nodes.appointment)
+    
+  // const data = require('../assets/data.json')
+    this.test$ = this.apiService.getObject()
+      .pipe(
+        switchMap(x2 => this.gehdochmal(x2)),
+    )
 
-    this.apiService.getThis().pipe(
-        map(apt => apt = this.appointments)
-        // map(nodes => nodes.appointment = this.appointments.nodes.appointment)
-      );
+    // console.log(this.appointmentArray);
+
+
+
+    // this.apiService.getThis().pipe(
+    //     map(apt => apt = this.appointments)
+    //     // map(nodes => nodes.appointment = this.appointments.nodes.appointment)
+    //   );
 
     // this.http.get(this.url, { responseType: 'json' }).pipe(
 
@@ -172,7 +190,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     // )
   
     // console.log(apiElement);
-    console.log(this.appointments);
   }
      
     // TO DO: Connect small calendar to big calendar

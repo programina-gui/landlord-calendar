@@ -13,23 +13,31 @@ import { HttpClient } from '@angular/common/http';
 
 export class ApiService {
 
-  url = 'assets/data.json';
+  url = '../assets/data.json';
+  // url = 'https://jsonplaceholder.typicode.com/posts';
+
+  appointments: Appointments[];
  
 // url = 'https://swapi.co/api/people/6/';
   constructor(private http: HttpClient) { 
     console.log(this.url);
+    this.appointments = [new Appointments()];
   }
 
 
+  getObject() {
+    return this.http.get<Object>(this.url);
+  }
+
 //   Variante 3
-    getThis(): Observable<any> {
+    // getThis(): Observable<any> {
 
-        return this.http.get(this.url, { responseType: 'json' }).pipe(
-            map( (response: Response) => { 
-                return response.json()})
-        )
+    //     return this.http.get(this.url, { responseType: 'json' }).pipe(
+    //         map( (response: Response) => { 
+    //             return response.json()})
+    //     )
 
-    }
+    // }
 
 // Variante 1
 
@@ -42,11 +50,12 @@ export class ApiService {
 // }
 
 // Variante 2
-    // getObject(): Observable<Appointment> {
+// getObject(): Observable<Appointment> {
     //   return this.http.get<Appointments[]>(this.url).pipe(
     //     map(appointment => this.mapToAppointment(appointment))
     //   );
     // }
+   
   
     // private mapToAppointment(apt: string): NewObject {
     //   return {
