@@ -49,7 +49,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     appointmentArray: Appointments[];
     // appointmentObservable$: Observable<Appointments[]>;
     agent: User = new User();
-    appointments: Appointments = new Appointments();
+    appointments: Appointments;
     agents: User[];
     properties: Property[];
     // TO DO: Inhalt von moment
@@ -72,8 +72,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     private viewContainer: ViewContainerRef,
     private apiService: ApiService,
     private mockData: AppointmentMockData) {
-      this.appointment = this.mockData.appointment1;
-      console.log('Appointment Mock Data: ', this.appointment);
+      // this.appointment = this.mockData.appointment1;
+      // console.log('Appointment Mock Data: ', this.appointment);
     }
 
   // monthSelected(date) {
@@ -104,12 +104,17 @@ export class AppComponent implements AfterViewInit, OnInit {
   //   this.posts = this.http.get(this.url, { responseType: 'json' });
   // }
 
-  gehdochmal(x2: any): Observable<Object> {
-    console.log(x2['data']['appointments']['page']);
+  createAppointmentsObj(appointmentsObj: any): Observable<Object> {
+    this.appointments = new Appointments();
+    console.log('Empty new Appointments ', this.appointments);
+    console.log('Pagination Object ', appointmentsObj['data']['appointments']['page']);
+    // console.log('Appointments ',  appointmentsObj['data']['appointments']);
+    this.appointments = appointmentsObj['data']['appointments'];
+    console.log('New, filled Appointments ', this.appointments);
     return new Observable<{}>();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     const buttons = document.querySelectorAll('mat-calendar mat-calendar-header button');
     if (buttons) {
       Array.from(buttons).forEach(button => {
@@ -119,11 +124,11 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.test$ = this.apiService.getObject()
       .pipe(
-        switchMap(x2 => this.gehdochmal(x2))
-      )
+        switchMap(appointmentsObj => this.createAppointmentsObj(appointmentsObj))
+      );
   }
 
 }

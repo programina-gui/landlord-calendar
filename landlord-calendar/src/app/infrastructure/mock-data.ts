@@ -2,6 +2,9 @@ import { Appointment } from '../models/appointment.model';
 import { User } from '../models/user.model';
 import { Property } from '../models/property.model';
 
+/**
+ * Appointment Data
+ */
 const appointment1 = new Appointment();
     appointment1.attendeeCount  = 2;
     // TO DO Add function to trim off everything after "T"
@@ -19,13 +22,18 @@ export class AppointmentMockData {
     }
 }
 
+
+/**
+ * User Data
+ */
 const user1: User = new User();
 const user2: User = new User();
     user1.name = 'Max';
-    user1.firstName = 'Max'
+    user1.firstName = 'Max';
     user2.firstName = 'Max';
     user2.name = 'Mustermann';
 const users: User[] = [user1, user2];
+
 
 export class UserMockData {
 
@@ -39,27 +47,36 @@ users: User[];
     }
 }
 
-const property1 = new Property();
-const property2 = new Property();
+
+/**
+ * Property Data
+ */
+const property1: Property = new Property();
+const property2: Property = new Property();
     property1.name = '2 Zimmer in Stendal';
     property2.name = 'Flat ohne name';
-    this.properties = [property1, property2];
+const properties: Property[] = [property1, property2];
 
 
 export class PropertyMockData {
 
+    property1: Property;
+    property2: Property;
     constructor() {
-property1;
-property2;
+        this.property1 = property1;
+        this.property2 = property2;
     }
 }
 
 
+/**
+ * Appointments Data
+ */
 const hourRange = '10-11';
 
 export class AppointmentsMockData {
-
+    hourRange: string;
     constructor() {
-         hourRange;
+        this.hourRange = hourRange;
     }
 }
