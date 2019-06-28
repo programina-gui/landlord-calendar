@@ -7,7 +7,6 @@ import { Appointment } from 'src/app/models/appointment.model';
 export interface DialogData {
     appointments: Appointments;
     appointmentArray: Appointment[]
-    
   }
 
   @Component({
@@ -19,7 +18,6 @@ export class AppointmentOverviewComponent {
   appointments: Appointments;
   appointmentArray: Appointment[];
   appointment1 = new Appointment();
-  
 
   @Output()
   goForwardAppointmentEmitter: EventEmitter<any>;
@@ -29,16 +27,16 @@ export class AppointmentOverviewComponent {
       if (this.data.appointmentArray){
         this.appointmentArray = this.data.appointmentArray;
       } else {
-        this.appointmentArray=[this.appointment1];
+        this.appointmentArray = [this.appointment1];
       }
-     
+
       this.appointments = this.data.appointments;
     }
 
     apply() {
       this.dialogRef.close(true);
     }
-    
+
     close(): void {
       this.dialogRef.close();
     }

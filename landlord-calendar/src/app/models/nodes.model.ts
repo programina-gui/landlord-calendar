@@ -1,6 +1,5 @@
-import { AppointmentArray, Appointment } from "./appointment.model";
+import { Appointment } from './appointment.model';
 
 export class Nodes {
     appointment: Appointment = new Appointment();
- 
 }

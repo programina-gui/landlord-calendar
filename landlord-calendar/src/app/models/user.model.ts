@@ -1,6 +1,4 @@
-import { NewObject } from "../../infrastructure/abstract-object-models/new-object.model";
-
-export class User extends NewObject {
+export class User {
     firstName: string;
     name: string;
     title: string;

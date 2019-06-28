@@ -1,5 +1,5 @@
 <div class="header">
-  <mat-form-field>
+  <!-- <mat-form-field>
     <mat-label>All properties</mat-label>
     <mat-select>
       <mat-option *ngFor="let property of properties" [value]="property.propertyname">
@@ -11,33 +11,30 @@
   <mat-form-field style="margin-left: 2em;">
     <mat-label>All agents</mat-label>
     <mat-select>
-      <!-- todo: create datawrapper with getter and setter -->
-      <!-- <mat-option *ngFor="let agent of agents" [value]="agent.name">
+      <mat-option *ngFor="let agent of agents" [value]="agent.name">
                {{agent.firstName}}  {{agent.name}} 
-            </mat-option> -->
+      </mat-option> 
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
   <button (click)="getAppointment()">HTTP</button>
-  <!-- <div *ngFor="let apt of posts | async">
-      {{apt | json}}</div> -->
   <div>{{posts | async | json}}</div>
 </div>
-<div class="uppersmallbox">
+<!-- <div class="uppersmallbox">
   <div id="calendar">
     <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
       (selectedChange)="onDateChanged($event)"></mat-calendar>
   </div>
+</div> 
+<div class="lowersmallbox">
 
 </div>
 <div class="mainbox">
   <ng-container>
     <app-calendar-week-view id="scheduler"></app-calendar-week-view>
   </ng-container>
-</div>
+</div>-->
 <div class="footer">
 
-  <!-- <div *ngFor="let apt of appointmentArray">{{apt.appointments.nodes.appointment.date}}</div> -->
-  <!-- <div *ngFor="let apt of appointmentArray">{{apt | json}}</div>  -->
   <div *ngIf="test$ | async">
     <div>
       AAAAAAAAAAAAAAAAAAAAAAA
