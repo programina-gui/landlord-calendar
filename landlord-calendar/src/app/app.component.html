@@ -1,7 +1,7 @@
 <div class="header"> 
   <mat-form-field>
     <mat-label>All properties</mat-label>
-    <mat-select [(value)]="propertyName">
+    <mat-select >
       <mat-option *ngFor="let property of properties" [value]="property.propertyname">
         {{property.propertyname}}
       </mat-option>

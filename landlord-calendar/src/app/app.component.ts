@@ -113,21 +113,25 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.appointments.nodes = appointmentsObj['data']['appointments']['nodes'];
     this.appointments.page = appointmentsObj['data']['appointments']['page'];
     console.log('New, filled Appointments ', this.appointments);
-    // for (i=0; this.appointments.nodes.length)
-    // this.appointments.nodes =  appointmentsObj['data']['appointments']['nodes']['property'];
+    for ( let i = 0; this.appointments.nodes.length > i; i++) {
+      this.appointments.nodes[i].property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
+      console.log(this.appointments.nodes[i].property);
+    }
     // console.log('New, filled Appointments ', this.appointments);
     // this.appointments.nodes.property.user =  appointmentsObj['data']['appointments']['nodes']['property']['user'];
     console.log('New, filled Appointments ', this.appointments);
-    this.fillAppointment(this.appointments);
+    this.fillAppointment();
     return new Observable<{}>();
   }
 
-  fillAppointment(apt: Appointments) {
-      this.appointments = apt;
-      // const firstN = this.appointments.nodes.property.user.firstName;
-      // const name = this.appointments.nodes.property.user.name;
-      // this.username =  firstN + ' ' + name;
-      // this.propertyName = this.appointments.nodes.property.name;
+  fillAppointment() {
+
+      for ( let i = 0; this.appointments.nodes.length > i; i++) {
+      const firstN = this.appointments.nodes[i].property.user.firstName;
+      const name = this.appointments.nodes[i].property.user.name;
+      this.username =  firstN + ' ' + name;
+      this.propertyName = this.appointments.nodes[i].property.name;
+      }
   }
 
   ngAfterViewInit() {
