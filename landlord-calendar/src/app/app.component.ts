@@ -7,7 +7,6 @@ import * as moment from 'moment';
 import { MatDatepicker, MatCalendar, MatDialog } from '@angular/material';
 import { AppointmentOverviewComponent, DialogData } from './modals/appointment-overview/appointment-overview.component';
 import { Property } from './models/property.model';
-import { Appointment } from './models/appointment.model';
 import { FormControl } from '@angular/forms';
 import { Appointments } from './models/appointments.model';
 import { User } from './models/user.model';
@@ -15,6 +14,7 @@ import { ApiService } from './infrastructure/api.service';
 import { map, switchMap, tap, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { pipe, Observable } from 'rxjs';
+import { Nodes } from './models/nodes.model';
 
 
 export const MY_FORMATS = {
@@ -45,7 +45,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     // url = './../assets/data.json';
     url = 'https://jsonplaceholder.typicode.com/posts';
     title = 'landlord-calendar';
-    appointment: Appointment = new Appointment();
+    appointment: Nodes = new Nodes();
     appointmentArray: Appointments[];
     // appointmentObservable$: Observable<Appointments[]>;
     agent: User = new User();
@@ -54,6 +54,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     properties: Property[];
     // TO DO: Inhalt von moment
     date = new FormControl(moment());
+    username = '';
+    username$: Observable<string>;
+    propertyName = '';
 
     @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
     isValidMoment = false;
@@ -106,15 +109,29 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   createAppointmentsObj(appointmentsObj: any): Observable<Object> {
     this.appointments = new Appointments();
-    console.log('Empty new Appointments ', this.appointments);
-    console.log('Pagination Object ', appointmentsObj['data']['appointments']['page']);
-    // console.log('Appointments ',  appointmentsObj['data']['appointments']);
     this.appointments = appointmentsObj['data']['appointments'];
+    this.appointments.nodes = appointmentsObj['data']['appointments']['nodes'];
+    this.appointments.page = appointmentsObj['data']['appointments']['page'];
     console.log('New, filled Appointments ', this.appointments);
+    // for (i=0; this.appointments.nodes.length)
+    // this.appointments.nodes =  appointmentsObj['data']['appointments']['nodes']['property'];
+    // console.log('New, filled Appointments ', this.appointments);
+    // this.appointments.nodes.property.user =  appointmentsObj['data']['appointments']['nodes']['property']['user'];
+    console.log('New, filled Appointments ', this.appointments);
+    this.fillAppointment(this.appointments);
     return new Observable<{}>();
   }
 
+  fillAppointment(apt: Appointments) {
+      this.appointments = apt;
+      // const firstN = this.appointments.nodes.property.user.firstName;
+      // const name = this.appointments.nodes.property.user.name;
+      // this.username =  firstN + ' ' + name;
+      // this.propertyName = this.appointments.nodes.property.name;
+  }
+
   ngAfterViewInit() {
+
     const buttons = document.querySelectorAll('mat-calendar mat-calendar-header button');
     if (buttons) {
       Array.from(buttons).forEach(button => {
@@ -122,6 +139,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         });
       });
     }
+
   }
 
   ngOnInit() {
@@ -129,6 +147,11 @@ export class AppComponent implements AfterViewInit, OnInit {
       .pipe(
         switchMap(appointmentsObj => this.createAppointmentsObj(appointmentsObj))
       );
+
+     
+
+      //   this.appointment = this.mockData.appointment1;
+      //   console.log('Appointment Mock Data: ', this.appointment);
   }
 
 }

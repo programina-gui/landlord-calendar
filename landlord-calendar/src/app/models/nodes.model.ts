@@ -1,5 +1,8 @@
-import { Appointment } from './appointment.model';
+import { Property } from './property.model';
 
 export class Nodes {
-    appointment: Appointment = new Appointment();
+    date: string;
+    maxInviteeCount: number;
+    attendeeCount: number;
+    property: Property = new Property();
 }

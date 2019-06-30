@@ -11,21 +11,25 @@
         next
     </button>
 </div>
-    <div *ngFor="let appointment of appointmentsArray"  class="flexContainer">
-            <div class="flexElement" style=" margin-top: 10pt;">
-                <div></div>
-                <div >
-                    <div>{{appointment.date}}</div>
-                    <div>{{appointment.time}}</div>
-                    <div>{{appointment.attendeeCount}} | {{appointment.maxInviteeCount}}</div>
-                </div>
-                
-                <button mat-button color="primary" class="viewingButton" (click)="apply()">
-                    <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
-                    Viewing
-                </button>
+<div *ngFor="let appointment of appointmentArray"  class="flexContainer">
+        <div class="flexElement" style=" margin-top: 10pt;">
+            <div></div>
+            <div >
+                <div>{{appointment.date}}</div>
+                <div>{{appointment.time}}</div>
+                <div>{{appointment.attendeeCount}} | {{appointment.maxInviteeCount}}</div>
             </div>
-    </div>
+            
+            <button mat-button color="primary" class="viewingButton" (click)="apply()">
+                <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+                Viewing
+            </button>
+        </div>
+</div>
+
+<div *ngIf="noData">
+ <div>{{noDataTitle}}</div>
+</div>
 
 <div class="footer">
     <button mat-button (click)="close()">Close</button>

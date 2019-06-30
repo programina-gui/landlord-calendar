@@ -1,7 +1,6 @@
 import { Appointments } from './../models/appointments.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Appointment } from 'src/app/models/appointment.model';
 import { map } from 'rxjs/operators';
 import { Response } from '@angular/http';
 import { HttpClient } from '@angular/common/http';

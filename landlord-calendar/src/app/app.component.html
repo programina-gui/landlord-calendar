@@ -1,7 +1,7 @@
-<!-- <div class="header"> -->
-  <!-- <mat-form-field>
+<div class="header"> 
+  <mat-form-field>
     <mat-label>All properties</mat-label>
-    <mat-select>
+    <mat-select [(value)]="propertyName">
       <mat-option *ngFor="let property of properties" [value]="property.propertyname">
         {{property.propertyname}}
       </mat-option>
@@ -10,14 +10,14 @@
 
   <mat-form-field style="margin-left: 2em;">
     <mat-label>All agents</mat-label>
-    <mat-select>
+    <mat-select  [(value)]="username">
       <mat-option *ngFor="let agent of agents" [value]="agent.name">
                {{agent.firstName}}  {{agent.name}} 
       </mat-option> 
     </mat-select>
-  </mat-form-field> -->
+  </mat-form-field> 
 
-<!-- </div> -->
+</div>
 <!-- <div class="uppersmallbox">
   <div id="calendar">
     <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"

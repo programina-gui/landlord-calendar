@@ -1,11 +1,11 @@
-import { Appointment } from '../models/appointment.model';
+import { Nodes} from '../models/nodes.model';
 import { User } from '../models/user.model';
 import { Property } from '../models/property.model';
 
 /**
- * Appointment Data
+ * Nodes Data
  */
-const appointment1 = new Appointment();
+const appointment1 = new Nodes();
     appointment1.attendeeCount  = 2;
     // TO DO Add function to trim off everything after "T"
     appointment1.date = '2019-03-09T11:00:00.000+0000';
@@ -16,7 +16,7 @@ const appointment1 = new Appointment();
 
 
 export class AppointmentMockData {
-    appointment1: Appointment;
+    appointment1: Nodes;
     constructor() {
         this.appointment1 = appointment1;
     }

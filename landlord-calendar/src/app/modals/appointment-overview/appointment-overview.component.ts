@@ -1,12 +1,11 @@
 import { Component, OnInit, Inject, Input, TemplateRef, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Appointments } from 'src/app/models/appointments.model';
-import { Appointment } from 'src/app/models/appointment.model';
+import { Nodes } from 'src/app/models/nodes.model';
 
 
 export interface DialogData {
-    appointments: Appointments;
-    appointmentArray: Appointment[]
+    appointments: Nodes[];
   }
 
   @Component({
@@ -15,19 +14,22 @@ export interface DialogData {
     styleUrls: ['./appointment-overview.component.scss']
 })
 export class AppointmentOverviewComponent {
-  appointments: Appointments;
-  appointmentArray: Appointment[];
-  appointment1 = new Appointment();
+  appointmentArray: Nodes[];
+  appointments = [new Nodes()];
+  noData = false;
+  noDataTitle = 'Oops! There appears to be no data';
 
   @Output()
   goForwardAppointmentEmitter: EventEmitter<any>;
 
   constructor( public dialogRef: MatDialogRef<AppointmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-      if (this.data.appointmentArray){
-        this.appointmentArray = this.data.appointmentArray;
+      if (this.data.appointments){
+        this.appointments = this.data.appointments;
+        this.appointments.forEach( (val) => this.appointmentArray.push(val)
+        );
       } else {
-        this.appointmentArray = [this.appointment1];
+        this.noData = true;
       }
 
       this.appointments = this.data.appointments;
