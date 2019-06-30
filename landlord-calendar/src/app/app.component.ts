@@ -115,6 +115,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     console.log('New, filled Appointments ', this.appointments);
     for ( let i = 0; this.appointments.nodes.length > i; i++) {
       this.appointments.nodes[i].property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
+      // !? braucht das eine rekursive Iteration? 
+      // this.appointments.nodes[i].property[] = appointmentsObj['data']['appointments']['nodes'][i]['property'];
       console.log(this.appointments.nodes[i].property);
     }
     // console.log('New, filled Appointments ', this.appointments);
@@ -123,6 +125,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.fillAppointment();
     return new Observable<{}>();
   }
+
 
   fillAppointment() {
 
