@@ -15,6 +15,7 @@ import { map, switchMap, tap, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { pipe, Observable } from 'rxjs';
 import { Nodes } from './models/nodes.model';
+import { Address } from './models/address.model';
 
 
 export const MY_FORMATS = {
@@ -45,7 +46,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     // url = './../assets/data.json';
     url = 'https://jsonplaceholder.typicode.com/posts';
     title = 'landlord-calendar';
-    appointment: Nodes = new Nodes();
     appointmentArray: Appointments[];
     // appointmentObservable$: Observable<Appointments[]>;
     agent: User = new User();
@@ -79,33 +79,20 @@ export class AppComponent implements AfterViewInit, OnInit {
       // console.log('Appointment Mock Data: ', this.appointment);
     }
 
-  // monthSelected(date) {
-  //   console.log(`Selected: ${date}`);
-  //   this.openDialog(date);
-  // }
+  monthSelected(date) {
+    console.log(`Selected: ${date}`);
+    this.openDialog(date);
+  }
 
-  // onDateChanged(date) {
-  //   console.log(`Selected: ${date}`);
-  //   this.openDialog(date);
-  // }
+  onDateChanged(date) {
+    console.log(`Selected: ${date}`);
+    this.openDialog(date);
+  }
 
-  // openDialog(date?: string): void {
-  //   const data: DialogData = {
-  //       appointments: this.appointments,
-  //       appointmentArray: [this.appointments]
-  //   }
-
-  //   const dialogRef = this.dialog.open(AppointmentOverviewComponent, { data });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //       console.log('The dialog was closed');
-  //       if (result) {
-  //             alert('You have created a viewing.');
-  //       } else (error) => { throw Error(error);}
-  //     });
-  // }
-  // getAppointment(){
-  //   this.posts = this.http.get(this.url, { responseType: 'json' });
-  // }
+ 
+  getAppointment() {
+    this.posts = this.http.get(this.url, { responseType: 'json' });
+  }
 
   createAppointmentsObj(appointmentsObj: any): Observable<Object> {
     this.appointments = new Appointments();
@@ -113,14 +100,16 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.appointments.nodes = appointmentsObj['data']['appointments']['nodes'];
     this.appointments.page = appointmentsObj['data']['appointments']['page'];
     console.log('New, filled Appointments ', this.appointments);
+    let property = new Property();
+    let user = new User();
+    let address = new Address();
+
     for ( let i = 0; this.appointments.nodes.length > i; i++) {
-      this.appointments.nodes[i].property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
-      // !? braucht das eine rekursive Iteration? 
-      // this.appointments.nodes[i].property[] = appointmentsObj['data']['appointments']['nodes'][i]['property'];
-      console.log(this.appointments.nodes[i].property);
-    }
-    // console.log('New, filled Appointments ', this.appointments);
-    // this.appointments.nodes.property.user =  appointmentsObj['data']['appointments']['nodes']['property']['user'];
+      property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
+        user = appointmentsObj['data']['appointments']['nodes']['property']['user'];
+        address = appointmentsObj['data']['appointments']['nodes']['property']['address'];
+     }
+
     console.log('New, filled Appointments ', this.appointments);
     this.fillAppointment();
     return new Observable<{}>();
@@ -155,7 +144,6 @@ export class AppComponent implements AfterViewInit, OnInit {
         switchMap(appointmentsObj => this.createAppointmentsObj(appointmentsObj))
       );
 
-     
 
       //   this.appointment = this.mockData.appointment1;
       //   console.log('Appointment Mock Data: ', this.appointment);
