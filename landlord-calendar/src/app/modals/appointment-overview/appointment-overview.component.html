@@ -1,36 +1,40 @@
-<div class="header">
-    <div>{{appointments.nodes.appointment.date}}</div>
-    <div>{{appointments.hourRange}}</div>
-    <div></div>
-    <button mat-button [disabled]="!appointments.page.hasPrev" >
-        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
-        prev
-    </button>
-    <button mat-button [disabled]="!appointments.page.hasNext" >
-        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
-        next
-    </button>
-</div>
-<div *ngFor="let appointment of appointmentArray"  class="flexContainer">
-        <div class="flexElement" style=" margin-top: 10pt;">
-            <div></div>
-            <div >
-                <div>{{appointment.date}}</div>
-                <div>{{appointment.time}}</div>
-                <div>{{appointment.attendeeCount}} | {{appointment.maxInviteeCount}}</div>
+<div class="container">
+        <div class="header">
+                <div>{{appointments.nodes.appointment.date}}</div>
+                <div>{{appointments.hourRange}}</div>
+                <div></div>
+                <button mat-button [disabled]="!appointments.page.hasPrev" >
+                    <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+                    prev
+                </button>
+                <button mat-button [disabled]="!appointments.page.hasNext" >
+                    <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+                    next
+                </button>
+            </div>
+            <div *ngFor="let appointment of appointmentArray"  class="flexContainer">
+                    <div class="flexElement" style=" margin-top: 10pt;">
+                        <div></div>
+                        <div >
+                            <div>{{appointment.date}}</div>
+                            <div>{{appointment.time}}</div>
+                            <div>{{appointment.attendeeCount}} | {{appointment.maxInviteeCount}}</div>
+                        </div>
+                        
+                        <button mat-button color="primary" class="viewingButton" (click)="apply()">
+                            <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
+                            Viewing
+                        </button>
+                    </div>
             </div>
             
-            <button mat-button color="primary" class="viewingButton" (click)="apply()">
-                <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
-                Viewing
-            </button>
-        </div>
+            <div *ngIf="noData">
+             <div>{{noDataTitle}}</div>
+            </div>
+            
+            <div class="footer">
+                <button mat-button (click)="close()">Close</button>
+            </div>
+            
 </div>
 
-<div *ngIf="noData">
- <div>{{noDataTitle}}</div>
-</div>
-
-<div class="footer">
-    <button mat-button (click)="close()">Close</button>
-</div>

@@ -1,57 +1,48 @@
-<div class="header"> 
-    <form [formGroup]="propertyForm" >
-        <div class="headerItem">
-          <div class="heading">All properties</div>
-        <mat-form-field>
-          <mat-label>Choose a property</mat-label>
-          <mat-select required [formControl]="selectFormControl" [formControlName]="property">
-            <mat-option *ngFor="let property of properties" [(value)]="property" (selectChange)="selectedProperty($event)">
-              {{property.name}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="selectFormControl.hasError('required')">
-              This field is required
-          </mat-error>
-        </mat-form-field>
-        </div>
-   
- 
-  <div class="headerItem">
-     <div class="heading">All agents</div>
-      <mat-form-field style="margin-left: 2em;">
-        <mat-label>Choose an agent</mat-label>
-        <mat-select  [formControlName]="agent">
-          <mat-option *ngFor="let agent of agents" [value]="agent">
+<form [formGroup]="propertyForm">
+  <div class="container">
+      <div class="header">
+
+          <div class="headerItem">
+            <div class="heading">All properties</div>
+            <mat-form-field>
+              <mat-label>Choose a property</mat-label>
+              <mat-select formControlName="property">
+                <mat-option *ngFor="let property of properties" [(value)]="property">
+                  {{property.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+      
+      
+          <div class="headerItem">
+            <div class="heading">All agents</div>
+            <mat-form-field style="margin-left: 2em;">
+              <mat-label>Choose an agent</mat-label>
+              <mat-select formControlName="agent">
+                <mat-option *ngFor="let agent of agents" [value]="agent">
                   {{agent.userName}}
-          </mat-option> 
-        </mat-select>
-      </mat-form-field> 
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      
+      
+        <div class="uppersmallbox">
+          <div id="calendar">
+            <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
+              (selectedChange)="onDateChanged($event)"></mat-calendar>
+          </div>
+        </div>
+        <div class="lowersmallbox">
+      
+        </div>
+        <div class="mainbox">
+          <ng-container>
+            <app-calendar-week-view id="scheduler" [appointmentData]="selectedNode" [date]="date"></app-calendar-week-view>
+          </ng-container>
+        </div>
+      
   </div>
-  </form>
-</div>
-
-<div class="uppersmallbox">
-  <div id="calendar">
-    <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
-      (selectedChange)="onDateChanged($event)"></mat-calendar>
-  </div>
-</div> 
-<div class="lowersmallbox">
-
-</div>
-<div class="mainbox">
-  <ng-container>
-    <app-calendar-week-view id="scheduler" [appointmentData]="selectedNode" [date]="date"></app-calendar-week-view>
-  </ng-container>
-</div>
-<div class="footer">
-
-  <div *ngIf="test$ | async">
-    <div>
-      AAAAAAAAAAAAAAAAAAAAAAA
-      {{test$}}
-    </div>
-  </div>
-  
-
-</div>
+</form>

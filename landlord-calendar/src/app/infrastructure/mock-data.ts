@@ -1,5 +1,5 @@
 import { Nodes} from '../models/nodes.model';
-import { User } from '../models/user.model';
+import { Profile } from '../models/user.model';
 import { Property } from '../models/property.model';
 
 /**
@@ -26,20 +26,20 @@ export class AppointmentMockData {
 /**
  * User Data
  */
-const user1: User = new User();
-const user2: User = new User();
+const user1: Profile = new Profile();
+const user2: Profile = new Profile();
     user1.name = 'Max';
-    user1.firstName = 'Max';
-    user2.firstName = 'Max';
+    user1.firstname = 'Max';
+    user2.firstname = 'Max';
     user2.name = 'Mustermann';
-const users: User[] = [user1, user2];
+const users: Profile[] = [user1, user2];
 
 
-export class UserMockData {
+export class ProfileMockData {
 
-user1: User;
-user2: User;
-users: User[];
+user1: Profile;
+user2: Profile;
+users: Profile[];
     constructor() {
         this.user1 = user1;
         this.user2 = user2;
@@ -58,7 +58,7 @@ const property2: Property = new Property();
 const properties: Property[] = [property1, property2];
 
 
-export class PropertyMockData {
+export class UserMockData {
 
     property1: Property;
     property2: Property;

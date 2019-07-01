@@ -8,7 +8,7 @@ import { MatDatepicker, MatCalendar} from '@angular/material';
 import { Property } from './models/property.model';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Appointments } from './models/appointments.model';
-import { User } from './models/user.model';
+import { Profile } from './models/user.model';
 import { ApiService } from './infrastructure/api.service';
 import { map, switchMap} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -49,11 +49,13 @@ export class AppComponent implements AfterViewInit, OnInit {
     appointmentArray: Appointments[];
     selectedNode: Nodes = new Nodes();
 
-    agent: User = new User();
-    agents: User[] = [];
+    agentObj: Profile = new Profile();
+    agents: Profile[] = [];
+    agent = '';
 
     properties: Property[] = [];
-    property: Property = new Property();
+    propertyObj: Property = new Property();
+    property = '';
 
     // TO DO: Inhalt von moment
     date = new FormControl(moment());
@@ -61,7 +63,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     propertyForm: FormGroup;
 
     test$: Observable<Object>;
-    selectFormControl = new FormControl('', Validators.required);
 
     @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
     isValidMoment = false;
@@ -77,13 +78,13 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   constructor(private renderer: Renderer2,
     private apiService: ApiService, private fb: FormBuilder) {
-  
-    this.propertyForm = this.fb.group ({
-      'property': '',
-      'agent': ''
-    });
-
-    this.onPropertyChange();
+   
+      this.propertyForm = this.fb.group ({
+        // 'property': [null, Validators.required],
+        // 'agent': [null, Validators.required]
+        'property': '',
+        'agent': ''
+      });
 
     }
 
@@ -105,46 +106,53 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.appointments.nodes = appointmentsObj['data']['appointments']['nodes'];
     this.appointments.page = appointmentsObj['data']['appointments']['page'];
     console.log('New, filled Appointments ', this.appointments);
-    let property = new Property();
-    let user = new User();
-    let address = new Address();
 
     for ( let i = 0; this.appointments.nodes.length > i; i++) {
-      property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
-        user = appointmentsObj['data']['appointments']['nodes'][i]['property']['user'];
-        address = appointmentsObj['data']['appointments']['nodes'][i]['property']['address'];
+      this.appointments.nodes[i].property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
+      this.appointments.nodes[i].property.user = appointmentsObj['data']['appointments']['nodes'][i]['property']['user'];
+      console.log('user', this.appointments.nodes[i].property.user);
+      this.appointments.nodes[i].property.address = appointmentsObj['data']['appointments']['nodes'][i]['property']['address'];
      }
 
-    console.log('New, filled Appointments ', this.appointments);
     this.fillAppointment();
     return new Observable<{}>();
   }
 
 
   fillAppointment() {
-
+    console.log('nodes', this.appointments.nodes);
       for ( let i = 0; this.appointments.nodes.length > i; i++) {
 
-          const firstN = this.appointments.nodes[i].property.user.firstName;
-          const name = this.appointments.nodes[i].property.user.name;
-          const userName = firstN + ' ' + name;
-          const propertyName = this.appointments.nodes[i].property.name;
+          const firstN = this.appointments.nodes[i].property.user.profile.firstname;
+          const name = this.appointments.nodes[i].property.user.profile.name;
+          console.log('first name', firstN);
+          console.log('last name', name);
 
-          this.property = new Property();
-          this.property.name = propertyName;
-          this.agent = new User();
-          this.agent.userName = userName;
+          this.propertyObj = new Property();
+          this.propertyObj.name = this.appointments.nodes[i].property.name;
 
-          this.properties.push(this.property);
-          this.agents.push(this.agent);
+          this.agentObj = new Profile();
+          this.agentObj.userName = firstN + ' ' + name;
+
+          this.properties.push(this.propertyObj);
+          this.agents.push(this.agentObj);
       }
 
+      this.agent = this.agentObj.userName;
+      this.property = this.propertyObj.name;
+      this.onPropertyChange();
   }
 
   onPropertyChange() {
-    this.propertyForm.valueChanges.subscribe(val => {
-      this.property = val;
-    });
+    if (this.property) {
+        this.propertyForm.get('property').valueChanges.subscribe(val => {
+        this.propertyObj = val;
+        if (this.propertyObj) {
+          const node = this.appointments.nodes.find( value => value.property === this.propertyObj);
+          this.agentObj = node.property.user.profile;
+        }
+      });
+    }
   }
 
 
@@ -164,6 +172,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       .pipe(
         switchMap(appointmentsObj => this.createAppointmentsObj(appointmentsObj))
       );
+
 
   }
 

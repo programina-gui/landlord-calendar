@@ -1,6 +1,12 @@
 export class User {
-    firstName: string;
+    profile: Profile;
+}
+
+export class Profile {
+    firstname: string;
     name: string;
+    phone: string;
+    gender: string;
     title: string;
     userName: string;
 }
