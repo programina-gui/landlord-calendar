@@ -2,10 +2,12 @@ import { Component, OnInit, Inject, Input, TemplateRef, EventEmitter, Output } f
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Appointments } from 'src/app/models/appointments.model';
 import { Nodes } from 'src/app/models/nodes.model';
+import { Moment } from 'moment';
 
 
 export interface DialogData {
     appointments: Nodes[];
+    date: Date;
   }
 
   @Component({
@@ -24,7 +26,7 @@ export class AppointmentOverviewComponent {
 
   constructor( public dialogRef: MatDialogRef<AppointmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-      if (this.data.appointments){
+      if (this.data.appointments) {
         this.appointments = this.data.appointments;
         this.appointments.forEach( (val) => this.appointmentArray.push(val)
         );

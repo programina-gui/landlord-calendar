@@ -10,11 +10,9 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
 import { Appointments } from './models/appointments.model';
 import { Profile } from './models/user.model';
 import { ApiService } from './infrastructure/api.service';
-import { map, switchMap} from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { pipe, Observable } from 'rxjs';
+import { switchMap} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Nodes } from './models/nodes.model';
-import { Address } from './models/address.model';
 
 
 export const MY_FORMATS = {
@@ -47,8 +45,10 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     appointments: Appointments;
     appointmentArray: Appointments[];
-    selectedNode: Nodes = new Nodes();
 
+    /**TODO Find out how to use observable and transfer it to template, so changes in parent component can be seen in child */
+    selectedNodes$: Observable<Nodes[]> = new Observable( );
+    selectedNode: Nodes = new Nodes();
     agentObj: Profile = new Profile();
     agents: Profile[] = [];
     agent = '';
@@ -56,9 +56,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     properties: Property[] = [];
     propertyObj: Property = new Property();
     property = '';
-
-    // TO DO: Inhalt von moment
-    date = new FormControl(moment());
 
     propertyForm: FormGroup;
 
@@ -78,7 +75,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   constructor(private renderer: Renderer2,
     private apiService: ApiService, private fb: FormBuilder) {
-   
       this.propertyForm = this.fb.group ({
         // 'property': [null, Validators.required],
         // 'agent': [null, Validators.required]
@@ -86,6 +82,8 @@ export class AppComponent implements AfterViewInit, OnInit {
         'agent': ''
       });
 
+      this.agent = this.agentObj.userName;
+      this.property = this.propertyObj.name;
     }
 
   monthSelected(date) {
@@ -132,27 +130,41 @@ export class AppComponent implements AfterViewInit, OnInit {
           this.propertyObj.name = this.appointments.nodes[i].property.name;
 
           this.agentObj = new Profile();
-          this.agentObj.userName = firstN + ' ' + name;
+          this.agentObj.userName = this.createUsername(firstN, name);
 
           this.properties.push(this.propertyObj);
           this.agents.push(this.agentObj);
       }
 
-      this.agent = this.agentObj.userName;
-      this.property = this.propertyObj.name;
       this.onPropertyChange();
   }
 
   onPropertyChange() {
-    if (this.property) {
+
         this.propertyForm.get('property').valueChanges.subscribe(val => {
-        this.propertyObj = val;
-        if (this.propertyObj) {
-          const node = this.appointments.nodes.find( value => value.property === this.propertyObj);
-          this.agentObj = node.property.user.profile;
-        }
+  
+                this.propertyObj = val;
+              if (this.propertyObj) {
+                const node = this.appointments.nodes.find( value => value.property.name === this.propertyObj.name);
+                this.agentObj = node.property.user.profile;
+                this.agent = this.createUsername(this.agentObj.firstname, this.agentObj.name);
+                console.log('Agent after create', this.agent);
+                this.selectedNode = node;
+                this.updateNodes(this.selectedNode);
+              }
+
       });
-    }
+  
+  }
+
+  createUsername(string1: string, string2: string): string {
+    const userName = string1 + ' ' + string2;
+    return userName;
+  }
+
+  updateNodes(input: Nodes) {
+    // this.selectedNodes$.subscribe();
+    // this.selectedNodes.push(input);
   }
 
 

@@ -2,13 +2,12 @@ import { AppointmentOverviewComponent, DialogData } from './../../modals/appoint
 import { Component, Input } from '@angular/core';
 import { ViewChild, TemplateRef } from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours  } from 'date-fns';
-import { Subject } from 'rxjs';
-import { CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { Subject, Observable } from 'rxjs';
+import { CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventColor, EventAction, CalendarEvent } from 'calendar-utils';
 import { Appointments } from 'src/app/models/appointments.model';
 import { FormControl } from '@angular/forms';
-import { CalEvent } from '../classes/calendar-classes';
 import { Nodes } from 'src/app/models/nodes.model';
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -48,16 +47,16 @@ export class CalendarWeekViewComponent {
   @ViewChild('modalContent', { read: true }) modalContent: TemplateRef<any>;
 
   @Input()
-  appointmentData: Nodes;
+  appointmentData: Observable<Nodes[]>;
 
-  @Input()
-  date: Moment;
+
 
   view: CalendarView = CalendarView.Week;
   appointment: Nodes = new Nodes();
+  appointments: Nodes[] = [];
   CalendarView = CalendarView;
   viewDate: Date = new Date();
-  incomingEvents: CalEvent[] = [];
+  incomingEvents: CalendarEvent[] = [];
   calEntryTitle = 'A draggable and resizable event';
   calEntryColor = colors.black;
   id = 0;
@@ -66,13 +65,13 @@ export class CalendarWeekViewComponent {
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalEvent }): void => {
+      onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalEvent }): void => {
+      onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter(iEvent => iEvent !== event);
         this.handleEvent('Deleted', event);
       }
@@ -81,12 +80,12 @@ export class CalendarWeekViewComponent {
 
   modalData: {
     action: string;
-    event: CalEvent;
+    event: CalendarEvent;
   };
 
   refresh: Subject<any> = new Subject();
 
-  events: CalEvent[] = [
+  events: CalendarEvent[] = [
     // {
     //   start: subDays(startOfDay(new Date()), 1),
     //   end: addDays(new Date(), 1),
@@ -132,29 +131,7 @@ export class CalendarWeekViewComponent {
 
   constructor(private modal: NgbModal,
     public dialog: MatDialog) {
-    // incomingCalEvents befüllen
-    this.appointment = this.appointmentData;
-    // let calEntry = new CalEvent();
-    // calEntry = {
-    //   id: this.id,
-    //   start: addHours(startOfDay(new Date()), 2),
-    //   end: new Date(),
-    //   title: this.calEntryTitle,
-    //   color: this.calEntryColor,
-    //   actions: this.actions,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true
-    //   },
-    //   draggable: true,
-    //   image: this.thumbnailImage
-    // };
-
-    // if (this.appointmentData) {
-    //   = this.appointmentData.nodes.find(val => val.date)
-    //   this.calEntryTitle
-    //   this.calEntryTemplate
-    // }
+    this.createCalendarEvent();
   }
 
   // updateCalendarEvents() {
@@ -172,8 +149,36 @@ export class CalendarWeekViewComponent {
 
   // }
 
+  createCalendarEvent() {
 
-  dayClicked({ date, events }: { date: Date; events: CalEvent[] }): void {
+    if (this.appointmentData) {
+         this.appointmentData.forEach(element => {
+        // this.id = element.id;
+        // this.calEntryTitle = element.property.name;
+        // this.calEntryColor = {
+        //   // if ()
+        // }
+        let calEntry: CalendarEvent;
+        calEntry = {
+          id: this.id,
+          start: addHours(startOfDay(new Date()), 2),
+          end: new Date(),
+          title: this.calEntryTitle,
+          color: this.calEntryColor,
+          actions: this.actions,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true
+        },
+        draggable: true,
+      };
+      // image: this.thumbnailImage
+        this.incomingEvents.push(calEntry);
+      });
+    }
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       this.viewDate = date;
       if (
@@ -188,9 +193,10 @@ export class CalendarWeekViewComponent {
   }
 
 
-  openDialog(date?: string): void {
+  openDialog(): void {
     const data: DialogData = {
-        appointments: [this.appointment]
+        appointments: [this.appointment],
+        date: this.viewDate
     };
 
     const dialogRef = this.dialog.open(AppointmentOverviewComponent, { data });
@@ -203,9 +209,10 @@ export class CalendarWeekViewComponent {
   }
 
 
-  handleEvent(action: string, event: CalEvent): void {
+  handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
+    this.openDialog();
   }
 
   // addEvent(): void {
@@ -225,7 +232,7 @@ export class CalendarWeekViewComponent {
   //   ];
   // }
 
-  deleteEvent(eventToDelete: CalEvent) {
+  deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter(event => event !== eventToDelete);
   }
 

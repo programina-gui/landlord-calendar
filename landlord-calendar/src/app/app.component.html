@@ -1,7 +1,9 @@
 <form [formGroup]="propertyForm">
   <div class="container">
       <div class="header">
+        <div *ngIf="test$ | async">
 
+        </div>
           <div class="headerItem">
             <div class="heading">All properties</div>
             <mat-form-field>
@@ -20,7 +22,7 @@
             <mat-form-field style="margin-left: 2em;">
               <mat-label>Choose an agent</mat-label>
               <mat-select formControlName="agent">
-                <mat-option *ngFor="let agent of agents" [value]="agent">
+                <mat-option *ngFor="let agent of agents" [(value)]="agent">
                   {{agent.userName}}
                 </mat-option>
               </mat-select>
@@ -40,7 +42,7 @@
         </div>
         <div class="mainbox">
           <ng-container>
-            <app-calendar-week-view id="scheduler" [appointmentData]="selectedNode" [date]="date"></app-calendar-week-view>
+            <app-calendar-week-view id="scheduler" [appointmentData]="selectedNodes" ></app-calendar-week-view>
           </ng-container>
         </div>
       
