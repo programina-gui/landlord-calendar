@@ -8,9 +8,11 @@
 						". uppersmallbox mainbox mainbox ."
 						".  lowersmallbox mainbox mainbox ."
 						" . footer footer footer . ";
-	justify-items: center;
+	// justify-items: center;
 	background-color: #F7F7F7;
+	font-family: Roboto,"Helvetica Neue",sans-serif;
 }
+
 
 #scheduler {
 	display: flex;
@@ -28,12 +30,27 @@
 
 
 .header {
-   grid-area: header;
-   justify-self: left;
-	// background: #945385;
-	width: 100%;
+	grid-area: header;
+    justify-self: left;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
 	height: 100%;
+	
+	.headerItem {
+		margin-right: 3em;
+		
+		.heading{
+			font-weight: bold;	
+		}
+	}
+	
+	
 }
+
+
+
+
 .uppersmallbox {
 	grid-area: uppersmallbox;
 	justify-self: center;

@@ -7,5 +7,4 @@ export class Property {
     inviteeCount: number;
     address: Address = new Address();
     user: User = new User();
-
 }

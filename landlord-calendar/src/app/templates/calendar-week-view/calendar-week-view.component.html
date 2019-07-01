@@ -21,17 +21,12 @@
 
 
   <div  class="box">
-    <mwl-calendar-week-view
-      [viewDate]="viewDate"
-      [events]="events"
-      [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)">
+    <mwl-calendar-week-view  [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-week-view>
   </div>
 
   
-  <ng-template #modalContent let-close="close"> 
+  <!-- <ng-template #modalContent let-close="close"> 
     <div class="modal-header">
       <h5 class="modal-title">Event action occurred</h5>
       <button type="button" class="close" (click)="close()">
@@ -53,4 +48,4 @@
         OK
       </button>
     </div>
-  </ng-template> 
+  </ng-template>  -->

@@ -1,3 +1,4 @@
+import { AppointmentOverviewComponent, DialogData } from './../../modals/appointment-overview/appointment-overview.component';
 import { Component, Input } from '@angular/core';
 import { ViewChild, TemplateRef } from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours  } from 'date-fns';
@@ -8,6 +9,10 @@ import { EventColor, EventAction, CalendarEvent } from 'calendar-utils';
 import { Appointments } from 'src/app/models/appointments.model';
 import { FormControl } from '@angular/forms';
 import { CalEvent } from '../classes/calendar-classes';
+import { Nodes } from 'src/app/models/nodes.model';
+import { Moment } from 'moment';
+import * as moment from 'moment';
+import { MatDialog } from '@angular/material';
 
 export class CalendarData {
 
@@ -43,10 +48,10 @@ export class CalendarWeekViewComponent {
   @ViewChild('modalContent', { read: true }) modalContent: TemplateRef<any>;
 
   @Input()
-  appointmentData: Appointments;
+  appointmentData: Nodes;
 
   @Input()
-  date: FormControl;
+  date: Moment;
 
   view: CalendarView = CalendarView.Week;
   appointment: Nodes = new Nodes();
@@ -74,14 +79,10 @@ export class CalendarWeekViewComponent {
     }
   ];
 
-
-
   modalData: {
     action: string;
     event: CalEvent;
   };
-
-
 
   refresh: Subject<any> = new Subject();
 
@@ -129,55 +130,47 @@ export class CalendarWeekViewComponent {
 
   activeDayIsOpen = true;
 
-  constructor(private modal: NgbModal) {
+  constructor(private modal: NgbModal,
+    public dialog: MatDialog) {
     // incomingCalEvents befüllen
-    this.appointmentData.nodes.forEach(
-      val => {
-        this.id = val.id;
-        // TODO: let startDate
-        // TODO: let endDate
+    this.appointment = this.appointmentData;
+    // let calEntry = new CalEvent();
+    // calEntry = {
+    //   id: this.id,
+    //   start: addHours(startOfDay(new Date()), 2),
+    //   end: new Date(),
+    //   title: this.calEntryTitle,
+    //   color: this.calEntryColor,
+    //   actions: this.actions,
+    //   resizable: {
+    //     beforeStart: true,
+    //     afterEnd: true
+    //   },
+    //   draggable: true,
+    //   image: this.thumbnailImage
+    // };
 
-        let calEntry = new CalEvent();
-        calEntry = {
-          id: this.id,
-          start: addHours(startOfDay(new Date()), 2),
-          end: new Date(),
-          title: this.calEntryTitle,
-          color: this.calEntryColor,
-          actions: this.actions,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true
-          },
-          draggable: true,
-          image: this.thumbnailImage
-        };
-
-        // if (this.appointmentData) {
-        //   = this.appointmentData.nodes.find(val => val.date)
-        //   this.calEntryTitle
-        //   this.calEntryTemplate
-        // }
-
-    })
-
+    // if (this.appointmentData) {
+    //   = this.appointmentData.nodes.find(val => val.date)
+    //   this.calEntryTitle
+    //   this.calEntryTemplate
+    // }
   }
 
-  updateCalendarEvents() {
-    this.events = [];
-    this.incomingEvents.forEach(element => {
-      this.events.push(element);
-    });
+  // updateCalendarEvents() {
+  //   this.events = [];
+  //   this.incomingEvents.forEach(element => {
+  //     this.events.push(element);
+  //   });
+  // }
 
-  }
+  // setCalEntryColor() {
 
-  setCalEntryColor() {
+  //   // wenn vergangenes Event
 
-    // wenn vergangenes Event
+  //   // wenn zukünftiges Event
 
-    // wenn zukünftiges Event
-
-  }
+  // }
 
 
   dayClicked({ date, events }: { date: Date; events: CalEvent[] }): void {
