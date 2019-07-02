@@ -1,5 +1,5 @@
 import { AppointmentOverviewComponent, DialogData } from './../../modals/appointment-overview/appointment-overview.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy,  } from '@angular/core';
 import { ViewChild, TemplateRef } from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours  } from 'date-fns';
 import { Subject, Observable } from 'rxjs';
@@ -41,13 +41,10 @@ const colors: any = {
   templateUrl: './calendar-week-view.component.html',
   styleUrls: ['./calendar-week-view.component.scss']
 })
-export class CalendarWeekViewComponent {
+export class CalendarWeekViewComponent implements OnDestroy, OnInit {
 
 
   @ViewChild('modalContent', { read: true }) modalContent: TemplateRef<any>;
-
-  @Input()
-  appointmentData: Observable<Nodes[]>;
 
 
 
@@ -56,11 +53,16 @@ export class CalendarWeekViewComponent {
   appointments: Nodes[] = [];
   CalendarView = CalendarView;
   viewDate: Date = new Date();
-  incomingEvents: CalendarEvent[] = [];
   calEntryTitle = 'A draggable and resizable event';
   calEntryColor = colors.black;
   id = 0;
-  thumbnailImage = 'https://www.immomio.de/wp-content/uploads/2015/06/11045809_10152644184541951_669594957_o.jpg';
+  // thumbnailImage = 'https://www.immomio.de/wp-content/uploads/2015/06/11045809_10152644184541951_669594957_o.jpg';
+
+  private appointmentChanged: any;
+
+  @Input() selectedNodesUpdate: Observable<void>;
+  @Input() nodes: Nodes[];
+
 
   actions: CalendarEventAction[] = [
     {
@@ -112,18 +114,18 @@ export class CalendarWeekViewComponent {
     //   color: colors.grey,
     //   allDay: true
     // },
-    // {
-    //   start: addHours(startOfDay(new Date()), 2),
-    //   end: new Date(),
-    //   title: 'A draggable and resizable event',
-    //   color: colors.yellow,
-    //   actions: this.actions,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true
-    //   },
-    //   draggable: true
-    // }
+    {
+      start: addHours(startOfDay(new Date()), 2),
+      end: new Date(),
+      title: 'A draggable and resizable event',
+      color: colors.yellow,
+      actions: this.actions,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      },
+      draggable: true
+    }
 
   ];
 
@@ -149,10 +151,15 @@ export class CalendarWeekViewComponent {
 
   // }
 
+  updateNodes() {
+    this.appointments = this.nodes;
+    this.createCalendarEvent();
+  }
+
   createCalendarEvent() {
 
-    if (this.appointmentData) {
-         this.appointmentData.forEach(element => {
+    if (this.appointments) {
+         this.appointments.forEach(element => {
         // this.id = element.id;
         // this.calEntryTitle = element.property.name;
         // this.calEntryColor = {
@@ -173,7 +180,7 @@ export class CalendarWeekViewComponent {
         draggable: true,
       };
       // image: this.thumbnailImage
-        this.incomingEvents.push(calEntry);
+        this.events.push(calEntry);
       });
     }
   }
@@ -232,6 +239,24 @@ export class CalendarWeekViewComponent {
   //   ];
   // }
 
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd
+  }: CalendarEventTimesChangedEvent): void {
+    this.events = this.events.map(iEvent => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd
+        };
+      }
+      return iEvent;
+    });
+    this.handleEvent('Dropped or resized', event);
+  }
+
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter(event => event !== eventToDelete);
   }
@@ -239,6 +264,14 @@ export class CalendarWeekViewComponent {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  ngOnInit(){
+    this.appointmentChanged = this.selectedNodesUpdate.subscribe(() => this.updateNodes());
+  }
+
+  ngOnDestroy() {
+    this.appointmentChanged.unsubscribe()
   }
 }
 

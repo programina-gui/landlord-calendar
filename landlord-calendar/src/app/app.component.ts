@@ -1,5 +1,5 @@
 import { AppointmentMockData } from './infrastructure/mock-data';
-import { Component, AfterViewInit, OnInit, ViewChild, Renderer2, TemplateRef, ViewContainerRef, Input } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ViewChild, Renderer2, TemplateRef, Input, Output, EventEmitter } from '@angular/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { Moment } from 'moment';
@@ -11,7 +11,7 @@ import { Appointments } from './models/appointments.model';
 import { Profile } from './models/user.model';
 import { ApiService } from './infrastructure/api.service';
 import { switchMap} from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Nodes } from './models/nodes.model';
 
 
@@ -43,11 +43,11 @@ export class AppComponent implements AfterViewInit, OnInit {
     url = 'https://jsonplaceholder.typicode.com/posts';
     title = 'landlord-calendar';
 
-    appointments: Appointments;
-    appointmentArray: Appointments[];
+    appointments: Appointments = new Appointments();
+    appointmentArray: Appointments[] = [];
 
     /**TODO Find out how to use observable and transfer it to template, so changes in parent component can be seen in child */
-    selectedNodes$: Observable<Nodes[]> = new Observable( );
+    selectedNodes: Nodes[] = [new Nodes()];
     selectedNode: Nodes = new Nodes();
     agentObj: Profile = new Profile();
     agents: Profile[] = [];
@@ -71,6 +71,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     calendarTemplate: TemplateRef<any>;
 
 
+    private appointmentChanged: Subject<void> = new Subject<void>();
+    // appointmentChanged: EventEmitter<> = new EventEmitter();
 
 
   constructor(private renderer: Renderer2,
@@ -103,12 +105,11 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.appointments = appointmentsObj['data']['appointments'];
     this.appointments.nodes = appointmentsObj['data']['appointments']['nodes'];
     this.appointments.page = appointmentsObj['data']['appointments']['page'];
-    console.log('New, filled Appointments ', this.appointments);
+    console.log('Page ', this.appointments.page);
 
     for ( let i = 0; this.appointments.nodes.length > i; i++) {
       this.appointments.nodes[i].property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
       this.appointments.nodes[i].property.user = appointmentsObj['data']['appointments']['nodes'][i]['property']['user'];
-      console.log('user', this.appointments.nodes[i].property.user);
       this.appointments.nodes[i].property.address = appointmentsObj['data']['appointments']['nodes'][i]['property']['address'];
      }
 
@@ -142,19 +143,19 @@ export class AppComponent implements AfterViewInit, OnInit {
   onPropertyChange() {
 
         this.propertyForm.get('property').valueChanges.subscribe(val => {
-  
+
                 this.propertyObj = val;
               if (this.propertyObj) {
-                const node = this.appointments.nodes.find( value => value.property.name === this.propertyObj.name);
-                this.agentObj = node.property.user.profile;
-                this.agent = this.createUsername(this.agentObj.firstname, this.agentObj.name);
-                console.log('Agent after create', this.agent);
-                this.selectedNode = node;
-                this.updateNodes(this.selectedNode);
+                const nodes = this.appointments.nodes.filter( value => value.property.name === this.propertyObj.name);
+                this.selectedNodes = nodes;
+
+                this.appointmentChanged.next()
+    
+                // this.appointmentChanged.emit(this.selectedNodes);
               }
 
       });
-  
+
   }
 
   createUsername(string1: string, string2: string): string {
@@ -162,10 +163,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     return userName;
   }
 
-  updateNodes(input: Nodes) {
-    // this.selectedNodes$.subscribe();
-    // this.selectedNodes.push(input);
-  }
 
 
   ngAfterViewInit() {

@@ -42,7 +42,7 @@
         </div>
         <div class="mainbox">
           <ng-container>
-            <app-calendar-week-view id="scheduler" [appointmentData]="selectedNodes" ></app-calendar-week-view>
+            <app-calendar-week-view id="scheduler" [selectedNodesUpdate]="appointmentChanged.asObservable()" [nodes]="selectedNodes" ></app-calendar-week-view>
           </ng-container>
         </div>
       
