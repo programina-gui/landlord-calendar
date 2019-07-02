@@ -1,54 +1,50 @@
-<div class="row text-center">
-    <div>
-        <div>
-            <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-        </div>
-      
-
-      <div class="header">
-        <div id="arrowButtonGroup">
-          <button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" class="mat-calendar-previous-button mat-icon-button" mat-icon-button type="button" aria-label="Previous month">
-          </button>
-          <button mwlCalendarNextView  [view]="view"  [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" class="mat-calendar-next-button mat-icon-button" mat-icon-button type="button" aria-label="Next month">
-          </button>
-        </div>
-
+<div class="container">
+    <div class="header">
+          <div id="date">
+            {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
+          </div>
+      <div id="arrowButtonGroup">
+        <button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()"
+          class="mat-calendar-previous-button mat-icon-button" mat-icon-button type="button"
+          aria-label="Previous month">
+        </button>
+        <button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()"
+          class="mat-calendar-next-button mat-icon-button" mat-icon-button type="button" aria-label="Next month">
+        </button>
       </div>
     </div>
-    
-  </div>
+
+
   <br />
 
-<div class="container">
-    <div  class="box">
-        <mwl-calendar-week-view  [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)">
-        </mwl-calendar-week-view>
+  <div class="box">
+    <mwl-calendar-week-view [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)">
+    </mwl-calendar-week-view>
+  </div>
+
+  <ng-template #modalContent let-close="close">
+    <div class="modal-header">
+      <h5 class="modal-title">Event action occurred</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        Action:
+        <pre>{{ modalData?.action }}</pre>
       </div>
-    
-      
-      <ng-template #modalContent let-close="close"> 
-        <div class="modal-header">
-          <h5 class="modal-title">Event action occurred</h5>
-          <button type="button" class="close" (click)="close()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div>
-            Action:
-            <pre>{{ modalData?.action }}</pre>
-          </div>
-          <div>
-            Event:
-            <pre>{{ modalData?.event | json }}</pre>
-          </div>
-        </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="close()">
-            OK
-          </button>
-        </div>
-      </ng-template> 
+      <div>
+        Event:
+        <pre>{{ modalData?.event | json }}</pre>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        OK
+      </button>
+    </div>
+  </ng-template>
+
 </div>
-<!-- <app-root (appointmentChanged)="updateNodes($event)"></app-root> -->
-  

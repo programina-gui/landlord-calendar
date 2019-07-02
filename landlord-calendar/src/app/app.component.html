@@ -32,13 +32,15 @@
       
       
         <div class="uppersmallbox">
-          <div id="calendar">
+          <div  id="calendar">
             <mat-calendar #calendar [(selected)]="selectedDate" (monthSelected)="monthSelected($event)"
               (selectedChange)="onDateChanged($event)"></mat-calendar>
           </div>
         </div>
         <div class="lowersmallbox">
-      
+            <ng-container>
+                <app-next-viewing></app-next-viewing>
+            </ng-container>
         </div>
         <div class="mainbox">
           <ng-container>

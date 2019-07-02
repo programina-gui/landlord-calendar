@@ -53,9 +53,10 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
   appointments: Nodes[] = [];
   CalendarView = CalendarView;
   viewDate: Date = new Date();
-  calEntryTitle = 'A draggable and resizable event';
+  calEntryTitle = 'New Appointment';
   calEntryColor = colors.black;
   id = 0;
+  date = new Date();
   // thumbnailImage = 'https://www.immomio.de/wp-content/uploads/2015/06/11045809_10152644184541951_669594957_o.jpg';
 
   private appointmentChanged: any;
@@ -114,18 +115,18 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
     //   color: colors.grey,
     //   allDay: true
     // },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
+    // {
+    //   start: addHours(startOfDay(new Date()), 2),
+    //   end: new Date(),
+    //   title: 'A draggable and resizable event',
+    //   color: colors.yellow,
+    //   actions: this.actions,
+    //   resizable: {
+    //     beforeStart: true,
+    //     afterEnd: true
+    //   },
+    //   draggable: true
+    // }
 
   ];
 
@@ -159,23 +160,25 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
   createCalendarEvent() {
 
     if (this.appointments) {
+      this.events = [];
          this.appointments.forEach(element => {
-        // this.id = element.id;
-        // this.calEntryTitle = element.property.name;
+        this.id = element.id;
+        this.calEntryTitle = element.property.name;
+        this.date = new Date(element.date);
         // this.calEntryColor = {
         //   // if ()
         // }
         let calEntry: CalendarEvent;
         calEntry = {
           id: this.id,
-          start: addHours(startOfDay(new Date()), 2),
-          end: new Date(),
+          start: addHours(startOfDay(this.date), 1),
+          end: this.date,
           title: this.calEntryTitle,
           color: this.calEntryColor,
           actions: this.actions,
           resizable: {
-            beforeStart: true,
-            afterEnd: true
+            beforeStart: false,
+            afterEnd: false
         },
         draggable: true,
       };
@@ -217,8 +220,8 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
 
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    // this.modalData = { event, action };
+    // this.modal.open(this.modalContent, { size: 'sm' });
     this.openDialog();
   }
 
@@ -239,23 +242,23 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
   //   ];
   // }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map(iEvent => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
+  // eventTimesChanged({
+  //   event,
+  //   newStart,
+  //   newEnd
+  // }: CalendarEventTimesChangedEvent): void {
+  //   this.events = this.events.map(iEvent => {
+  //     if (iEvent === event) {
+  //       return {
+  //         ...event,
+  //         start: newStart,
+  //         end: newEnd
+  //       };
+  //     }
+  //     return iEvent;
+  //   });
+  //   this.handleEvent('Dropped or resized', event);
+  // }
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter(event => event !== eventToDelete);
@@ -266,12 +269,12 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
     this.activeDayIsOpen = false;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.appointmentChanged = this.selectedNodesUpdate.subscribe(() => this.updateNodes());
   }
 
   ngOnDestroy() {
-    this.appointmentChanged.unsubscribe()
+    this.appointmentChanged.unsubscribe();
   }
 }
 

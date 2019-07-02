@@ -17,25 +17,26 @@ export interface DialogData {
     styleUrls: ['./appointment-overview.component.scss']
 })
 export class AppointmentOverviewComponent {
-  appointmentArray: Nodes[] = [];
+
   appointments = [new Nodes()];
   noData = false;
   noDataTitle = 'Oops! There appears to be no data';
+  date: Date = new Date();
 
   appointmentMockData: AppointmentMockData = new AppointmentMockData();
 
-  @Output()
-  goForwardAppointmentEmitter: EventEmitter<any> = new EventEmitter();
+  // @Output()
+  // goForwardAppointmentEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor( public dialogRef: MatDialogRef<AppointmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
       if (this.data) {
-        if (this.data.appointments) {
+        if (this.data.appointments && this.data.date) {
           this.appointments = this.data.appointments;
-          this.appointments.forEach( (val) => this.appointmentArray.push(val)
-          );
+          this.date = this.data.date;
         } else {
           this.appointments = [this.appointmentMockData.appointment1];
+          this.date = new Date(this.appointments[0].date);
         }
       } else {
         this.noData = true;

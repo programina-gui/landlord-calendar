@@ -36,12 +36,14 @@ import { AppointmentOverviewComponent } from './modals/appointment-overview/appo
 import { CalendarWeekViewComponent } from './templates/calendar-week-view/calendar-week-view.component';
 import { ApiService } from './infrastructure/api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { NextViewingComponent } from './templates/next-viewing/next-viewing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppointmentOverviewComponent,
-    CalendarWeekViewComponent
+    CalendarWeekViewComponent,
+    NextViewingComponent
   ],
   imports: [
     BrowserModule,
