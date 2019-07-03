@@ -93,10 +93,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     console.log(`Selected: ${date}`);
   }
 
-  // extractMonth(date: string) {
-
-  // }
-
   createAppointmentsObj(appointmentsObj: any): Observable<Object> {
     this.appointments = new Appointments();
     this.appointments = appointmentsObj['data']['appointments'];

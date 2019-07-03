@@ -1,4 +1,4 @@
-import { AppointmentMockData } from './../../infrastructure/mock-data';
+import { AppointmentMockData, AppointmentsMockData } from './../../infrastructure/mock-data';
 import { Component, OnInit, Inject, Input, TemplateRef, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Appointments } from 'src/app/models/appointments.model';
@@ -26,9 +26,8 @@ export class AppointmentOverviewComponent {
   appointments: Appointments = new Appointments();
 
   appointmentMockData: AppointmentMockData = new AppointmentMockData();
+  appointmentsMockData: AppointmentsMockData = new AppointmentsMockData();
 
-  // @Output()
-  // goForwardAppointmentEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor( public dialogRef: MatDialogRef<AppointmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
@@ -37,6 +36,9 @@ export class AppointmentOverviewComponent {
           this.nodes = this.data.nodes;
           this.date = this.data.date;
           this.appointments = this.data.appointments;
+          if (!this.appointments.hourRange) {
+            this.appointments.hourRange = this.appointmentsMockData.hourRange;
+          }
         } else {
           this.nodes = [this.appointmentMockData.appointment1];
           this.date = new Date(this.nodes[0].date);

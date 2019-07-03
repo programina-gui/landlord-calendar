@@ -56,7 +56,6 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
   calEntryColor = colors.black;
   id = 0;
   date: string;
-  // thumbnailImage = 'https://www.immomio.de/wp-content/uploads/2015/06/11045809_10152644184541951_669594957_o.jpg';
 
   private appointmentChanged: any;
 
@@ -70,7 +69,7 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
     {
       label: '<i class="fa fa-fw fa-pencil">Open  </i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.openDialog(event);
+        this.openDialog('Opened', event);
       }
     }
   ];
@@ -90,11 +89,8 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
 
 
   // setCalEntryColor() {
-
-  //   // wenn vergangenes Event
-
-  //   // wenn zukünftiges Event
-
+  //   if past Event > grey
+  //   if current or future > black
   // }
 
   updateNodes() {
@@ -121,7 +117,6 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
                 let calEntry: CalendarEvent;
                 calEntry = {
                   id: this.id,
-                  // start: addHours(startOfDay(new Date(this.date)), 1),
                   start: addHours(startOfDay(this.date), 1),
                   end: new Date(this.date),
                   title: this.calEntryTitle,
@@ -160,13 +155,13 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
   }
 
 
-  openDialog(event: CalendarEvent): void {
+  openDialog(action: string, event: CalendarEvent): void {
     let appointmentsFilteredByDay: Nodes[];
     appointmentsFilteredByDay = this.nodes.filter(val => new Date(val.date).getDay() === event.start.getDay());
     console.log('Appointments Filtered By Day', appointmentsFilteredByDay);
     const data: DialogData = {
         nodes: appointmentsFilteredByDay,
-        date: this.viewDate,
+        date: event.start,
         appointments: this.appointments
     };
 

@@ -72,7 +72,7 @@ export class UserMockData {
 /**
  * Appointments Data
  */
-const hourRange = '10-11';
+const hourRange = '10:00 -11:00 ';
 
 export class AppointmentsMockData {
     hourRange: string;

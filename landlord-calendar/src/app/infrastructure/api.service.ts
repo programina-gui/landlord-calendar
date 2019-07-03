@@ -12,9 +12,6 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
 
   url = '../assets/data.json';
-  // Alternative test data
-  // url = 'https://jsonplaceholder.typicode.com/posts';
-  // url = 'https://swapi.co/api/people/6/';
 
   appointments: Appointments[];
 

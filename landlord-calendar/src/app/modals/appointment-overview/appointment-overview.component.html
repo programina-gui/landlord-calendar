@@ -1,8 +1,9 @@
 <div class="container">
-        <div class="header">
+         <div class="header">
                 <div>
-                    <div>{{date}}</div>
-                    <div>{{appointments.hourRange}}</div>
+                    <p *ngIf="date">{{date}}</p>
+                    <br/>
+                    <p>{{appointments.hourRange}}</p>
                 </div>
                 <button mat-button [disabled]="!appointments.page.hasPrev" >
                     <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> -->
@@ -13,13 +14,12 @@
                     next
                 </button>
             </div>
-            <div *ngFor="let appointment of appointments"  class="flexContainer">
-                    <div class="flexElement" style=" margin-top: 10pt;">
+            <div *ngFor="let appointment of nodes" class="flexElement" >
+                    <div style=" margin-top: 10pt;">
                         <div></div>
                         <div >
-                            <div>{{appointment.date}}</div>
-                            <div>{{appointment.time}}</div>
-                            <div>{{appointment.attendeeCount}} | {{appointment.maxInviteeCount}}</div>
+                            <div>Viewing Date: {{appointment.date}}</div>
+                            <div>Attendees: {{appointment.attendeeCount}} | Max. Invitees: {{appointment.maxInviteeCount}}</div>
                         </div>
                         
                         <button mat-button color="primary" class="viewingButton" (click)="apply()">

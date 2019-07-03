@@ -29,24 +29,27 @@ export class DateParserService {
   splitDateFormat(str: string): Date {
     const formated_Date = str;
     const date = new Date(formated_Date); // formated_Date - SDK returned date
-    console.log(`${date.getDate()}, ${date.getMonth() + 1 }, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
+    console.log(`${date.getDate()}, ${date.getMonth() + 1}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
     return date;
   }
 
-  // findLatestDate(str: string) {
-  //   new Date(Math.max.apply(null, str.map( val => {
-  //         return new Date(val);
-  //       })
-  //     ));
-  // }
+  findLatestDate(str: string[]) {
+    let latestDate = new Date();
+    const result =
+      new Date(Math.min.apply(null, str.map(val => {
+        latestDate = new Date(val);
+      })));
+    console.log('latest Date', latestDate);
+    return latestDate;
+  }
 
   findEarliestDate(str: string[]): Date {
     let earliestDate = new Date();
     const result =
-    new Date(Math.min.apply(null, str.map( val => {
+      new Date(Math.min.apply(null, str.map(val => {
         earliestDate = new Date(val);
-    })));
-    console.log('earliest Date', earliestDate)
+      })));
+    console.log('earliest Date', earliestDate);
     return earliestDate;
   }
 
