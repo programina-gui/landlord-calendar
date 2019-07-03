@@ -1,10 +1,16 @@
 <div class="container">
     <div class="header">
-       <h3>Next viewing</h3> 
+       <h3>{{title}}</h3> 
     </div>
-    <div class="main">
       <div class="img-wrap">
           <img src="https://www.immomio.de/wp-content/uploads/2015/06/11045809_10152644184541951_669594957_o.jpg">
       </div>
-    </div>
+      <div class="text" *ngIf="viewing">
+          <h4>{{viewing.property.name}}</h4>
+          <div>{{viewing.property.address.street}}, {{viewing.property.address.houseNumber}}, {{viewing.property.address.zipCode}}, {{viewing.property.address.city}}, {{viewing.property.address.country}}</div>
+      </div>
+      <div class="text">
+        {{errorMessage}}
+      </div>
+  
 </div>

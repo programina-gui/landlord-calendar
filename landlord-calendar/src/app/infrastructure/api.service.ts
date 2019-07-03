@@ -19,7 +19,6 @@ export class ApiService {
   appointments: Appointments[];
 
   constructor(private http: HttpClient) {
-    console.log(this.url);
     this.appointments = [new Appointments()];
   }
 

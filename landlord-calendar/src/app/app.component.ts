@@ -72,14 +72,11 @@ export class AppComponent implements AfterViewInit, OnInit {
 
 
     private appointmentChanged: Subject<void> = new Subject<void>();
-    // appointmentChanged: EventEmitter<> = new EventEmitter();
 
 
   constructor(private renderer: Renderer2,
     private apiService: ApiService, private fb: FormBuilder) {
       this.propertyForm = this.fb.group ({
-        // 'property': [null, Validators.required],
-        // 'agent': [null, Validators.required]
         'property': '',
         'agent': ''
       });
@@ -105,7 +102,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.appointments = appointmentsObj['data']['appointments'];
     this.appointments.nodes = appointmentsObj['data']['appointments']['nodes'];
     this.appointments.page = appointmentsObj['data']['appointments']['page'];
-    console.log('Page ', this.appointments.page);
 
     for ( let i = 0; this.appointments.nodes.length > i; i++) {
       this.appointments.nodes[i].property = appointmentsObj['data']['appointments']['nodes'][i]['property'];
@@ -124,11 +120,10 @@ export class AppComponent implements AfterViewInit, OnInit {
 
           const firstN = this.appointments.nodes[i].property.user.profile.firstname;
           const name = this.appointments.nodes[i].property.user.profile.name;
-          console.log('first name', firstN);
-          console.log('last name', name);
 
           this.propertyObj = new Property();
           this.propertyObj.name = this.appointments.nodes[i].property.name;
+          this.onPropertyChange();
 
           this.agentObj = new Profile();
           this.agentObj.userName = this.createUsername(firstN, name);
@@ -137,21 +132,17 @@ export class AppComponent implements AfterViewInit, OnInit {
           this.agents.push(this.agentObj);
       }
 
-      this.onPropertyChange();
   }
 
   onPropertyChange() {
 
         this.propertyForm.get('property').valueChanges.subscribe(val => {
 
-                this.propertyObj = val;
+              this.propertyObj = val;
               if (this.propertyObj) {
                 const nodes = this.appointments.nodes.filter( value => value.property.name === this.propertyObj.name);
                 this.selectedNodes = nodes;
-
-                this.appointmentChanged.next()
-    
-                // this.appointmentChanged.emit(this.selectedNodes);
+                this.appointmentChanged.next();
               }
 
       });

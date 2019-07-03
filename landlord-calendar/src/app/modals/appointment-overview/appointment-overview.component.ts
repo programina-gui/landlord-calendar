@@ -7,8 +7,9 @@ import { Moment } from 'moment';
 
 
 export interface DialogData {
-    appointments: Nodes[];
+    nodes: Nodes[];
     date: Date;
+    appointments: Appointments;
   }
 
   @Component({
@@ -18,10 +19,11 @@ export interface DialogData {
 })
 export class AppointmentOverviewComponent {
 
-  appointments = [new Nodes()];
+  nodes = [new Nodes()];
   noData = false;
   noDataTitle = 'Oops! There appears to be no data';
   date: Date = new Date();
+  appointments: Appointments = new Appointments();
 
   appointmentMockData: AppointmentMockData = new AppointmentMockData();
 
@@ -31,18 +33,19 @@ export class AppointmentOverviewComponent {
   constructor( public dialogRef: MatDialogRef<AppointmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
       if (this.data) {
-        if (this.data.appointments && this.data.date) {
-          this.appointments = this.data.appointments;
+        if (this.data.nodes && this.data.date) {
+          this.nodes = this.data.nodes;
           this.date = this.data.date;
+          this.appointments = this.data.appointments;
         } else {
-          this.appointments = [this.appointmentMockData.appointment1];
-          this.date = new Date(this.appointments[0].date);
+          this.nodes = [this.appointmentMockData.appointment1];
+          this.date = new Date(this.nodes[0].date);
         }
       } else {
         this.noData = true;
       }
 
-      this.appointments = this.data.appointments;
+      this.nodes = this.data.nodes;
     }
 
     apply() {

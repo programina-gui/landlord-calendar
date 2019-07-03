@@ -37,6 +37,7 @@ import { CalendarWeekViewComponent } from './templates/calendar-week-view/calend
 import { ApiService } from './infrastructure/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NextViewingComponent } from './templates/next-viewing/next-viewing.component';
+import { DateParserService } from './infrastructure/date-parser.service';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,7 @@ import { NextViewingComponent } from './templates/next-viewing/next-viewing.comp
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [ ApiService, AppointmentMockData, UserMockData ],
+  providers: [ ApiService, AppointmentMockData, UserMockData, DateParserService ],
   exports: [ ],
   entryComponents: [ AppointmentOverviewComponent ],
   bootstrap: [AppComponent]

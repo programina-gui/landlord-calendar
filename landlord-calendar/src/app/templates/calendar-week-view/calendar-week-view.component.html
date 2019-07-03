@@ -1,18 +1,17 @@
 <div class="container">
-    <div class="header">
-          <div id="date">
-            {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
-          </div>
-      <div id="arrowButtonGroup">
-        <button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()"
-          class="mat-calendar-previous-button mat-icon-button" mat-icon-button type="button"
-          aria-label="Previous month">
-        </button>
-        <button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()"
-          class="mat-calendar-next-button mat-icon-button" mat-icon-button type="button" aria-label="Next month">
-        </button>
-      </div>
+  <div class="header">
+    <div id="date">
+      {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
     </div>
+    <div id="arrowButtonGroup">
+      <button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()"
+        class="mat-calendar-previous-button mat-icon-button" mat-icon-button type="button" aria-label="Previous month">
+      </button>
+      <button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()"
+        class="mat-calendar-next-button mat-icon-button" mat-icon-button type="button" aria-label="Next month">
+      </button>
+    </div>
+  </div>
 
 
   <br />
@@ -46,5 +45,8 @@
       </button>
     </div>
   </ng-template>
-
 </div>
+
+<!-- <ng-container>
+  <app-next-viewing [nextViewing]="nextViewing"></app-next-viewing>
+</ng-container> -->

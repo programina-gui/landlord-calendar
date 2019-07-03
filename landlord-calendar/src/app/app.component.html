@@ -39,12 +39,12 @@
         </div>
         <div class="lowersmallbox">
             <ng-container>
-                <app-next-viewing></app-next-viewing>
+                <app-next-viewing [selectedNodesUpdate]="appointmentChanged.asObservable()" ></app-next-viewing>
             </ng-container>
         </div>
         <div class="mainbox">
           <ng-container>
-            <app-calendar-week-view id="scheduler" [selectedNodesUpdate]="appointmentChanged.asObservable()" [nodes]="selectedNodes" ></app-calendar-week-view>
+            <app-calendar-week-view id="scheduler" [selectedNodesUpdate]="appointmentChanged.asObservable()" [nodesIncoming]="selectedNodes" [appointments]="appointments" ></app-calendar-week-view>
           </ng-container>
         </div>
       
