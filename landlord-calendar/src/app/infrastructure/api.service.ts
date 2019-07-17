@@ -13,10 +13,8 @@ export class ApiService {
 
   url = '../assets/data.json';
 
-  appointments: Appointments[];
 
   constructor(private http: HttpClient) {
-    this.appointments = [new Appointments()];
   }
 
 

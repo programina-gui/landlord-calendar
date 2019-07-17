@@ -1,3 +1,4 @@
+import { UpdateDateService } from '../../infrastructure/updateDate.service';
 import { DateParserService } from './../../infrastructure/date-parser.service';
 import { AppointmentOverviewComponent, DialogData } from './../../modals/appointment-overview/appointment-overview.component';
 import { Component, Input, OnInit, OnDestroy,  } from '@angular/core';
@@ -13,12 +14,10 @@ import { Nodes } from 'src/app/models/nodes.model';
 import { MatDialog } from '@angular/material';
 
 export class CalendarData {
-
   modalData: any;
   viewDate: any;
   view: any;
   action: any;
-
 }
 
 
@@ -83,7 +82,7 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
   activeDayIsOpen = true;
 
   constructor(private modal: NgbModal,
-    public dialog: MatDialog, private dateParser: DateParserService) {
+    public dialog: MatDialog, private dateParser: DateParserService,  private dateUpdate: UpdateDateService) {
     this.createCalendarEvent();
   }
 
@@ -115,10 +114,15 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
                 //   // if ()
                 // }
                 let calEntry: CalendarEvent;
+                const endDateTime = new Date(this.date);
+                let endDateHour = endDateTime.getHours();
+                // don't know how I'd handle jumping to the next hour, just adding to the number should not work
+                endDateHour = endDateHour++;
+                endDateTime.setHours(endDateHour);
                 calEntry = {
                   id: this.id,
                   start: addHours(startOfDay(this.date), 1),
-                  end: new Date(this.date),
+                  end: endDateTime,
                   title: this.calEntryTitle,
                   color: this.calEntryColor,
                   actions: this.actions,
@@ -134,6 +138,7 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
               // TO DO: pick earliest date and make calendar jump there
               // this.viewDate = this.dateParser.findEarliestDate();
                this.viewDate = this.dateParser.findEarliestDate(this.viewingDates);
+               this.dateUpdate.changeDate(this.viewDate);
                this.nextViewing = this.nodes.find( value => new Date(value.date) === this.viewDate);
          }
          });
@@ -186,6 +191,11 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.appointmentChanged = this.selectedNodesUpdate.subscribe(() => this.updateNodes());
+
+    this.dateUpdate.dateSubject.subscribe( model => {
+      this.viewDate = model;
+
+    });
   }
 
   ngOnDestroy() {

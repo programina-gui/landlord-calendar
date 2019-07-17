@@ -17,7 +17,6 @@ export class DateParserService {
 
   parseStringToMoment(str: string): Moment {
     const date = moment(str);
-    console.log(date.format('llll'));
     return date;
   } // format ISO 8601: '2013-02-14T13:15:03-08:00' (YYYY-MM-DDTHH:mm:ssZ)
 

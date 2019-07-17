@@ -1,5 +1,5 @@
-import { AppointmentMockData } from './infrastructure/mock-data';
-import { Component, AfterViewInit, OnInit, ViewChild, Renderer2, TemplateRef, Input, Output, EventEmitter } from '@angular/core';
+import { UpdateDateService } from './infrastructure/updateDate.service';
+import { Component, AfterViewInit, OnInit, ViewChild, Renderer2, TemplateRef, Input } from '@angular/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { Moment } from 'moment';
@@ -55,9 +55,11 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     properties: Property[] = [];
     propertyObj: Property = new Property();
-    property = '';
+    property: string;
 
     propertyForm: FormGroup;
+
+    private dateChanged: any;
 
     test$: Observable<Object>;
 
@@ -70,19 +72,15 @@ export class AppComponent implements AfterViewInit, OnInit {
     @Input()
     calendarTemplate: TemplateRef<any>;
 
-
     private appointmentChanged: Subject<void> = new Subject<void>();
 
 
   constructor(private renderer: Renderer2,
-    private apiService: ApiService, private fb: FormBuilder) {
+    private apiService: ApiService, private fb: FormBuilder, private dateUpdt: UpdateDateService) {
       this.propertyForm = this.fb.group ({
-        'property': '',
+        'property': this.propertyObj.name,
         'agent': ''
       });
-
-      this.agent = this.agentObj.userName;
-      this.property = this.propertyObj.name;
     }
 
   monthSelected(date) {
@@ -104,7 +102,6 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.appointments.nodes[i].property.user = appointmentsObj['data']['appointments']['nodes'][i]['property']['user'];
       this.appointments.nodes[i].property.address = appointmentsObj['data']['appointments']['nodes'][i]['property']['address'];
      }
-
     this.fillAppointment();
     return new Observable<{}>();
   }
@@ -134,7 +131,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
         this.propertyForm.get('property').valueChanges.subscribe(val => {
 
-              this.propertyObj = val;
+              this.propertyObj.name = val;
               if (this.propertyObj) {
                 const nodes = this.appointments.nodes.filter( value => value.property.name === this.propertyObj.name);
                 this.selectedNodes = nodes;
@@ -169,6 +166,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         switchMap(appointmentsObj => this.createAppointmentsObj(appointmentsObj))
       );
 
+    this.dateUpdt.changeMoment(this.selectedDate);
 
   }
 

@@ -38,6 +38,7 @@ import { ApiService } from './infrastructure/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NextViewingComponent } from './templates/next-viewing/next-viewing.component';
 import { DateParserService } from './infrastructure/date-parser.service';
+import { UpdateDateService } from './infrastructure/updateDate.service';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,7 @@ import { DateParserService } from './infrastructure/date-parser.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [ ApiService, AppointmentMockData, UserMockData, DateParserService ],
+  providers: [ ApiService, AppointmentMockData, UserMockData, DateParserService, UpdateDateService  ],
   exports: [ ],
   entryComponents: [ AppointmentOverviewComponent ],
   bootstrap: [AppComponent]

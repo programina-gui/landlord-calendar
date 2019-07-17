@@ -8,8 +8,8 @@
             <div class="heading">All properties</div>
             <mat-form-field>
               <mat-label>Choose a property</mat-label>
-              <mat-select formControlName="property">
-                <mat-option *ngFor="let property of properties" [(value)]="property">
+              <mat-select formControlName="property" [(ngModel)]="propertyObj.name">
+                <mat-option *ngFor="let property of properties" [value]="propertyObj.name">
                   {{property.name}}
                 </mat-option>
               </mat-select>
