@@ -122,7 +122,8 @@ export class CalendarWeekViewComponent implements OnDestroy, OnInit {
                 calEntry = {
                   id: this.id,
                   start: addHours(startOfDay(this.date), 1),
-                  end: endDateTime,
+                  end: new Date(this.date),
+                  // end: endDateTime,
                   title: this.calEntryTitle,
                   color: this.calEntryColor,
                   actions: this.actions,

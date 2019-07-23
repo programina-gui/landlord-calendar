@@ -8,8 +8,8 @@
             <div class="heading">All properties</div>
             <mat-form-field>
               <mat-label>Choose a property</mat-label>
-              <mat-select formControlName="property" [(ngModel)]="propertyObj.name">
-                <mat-option *ngFor="let property of properties" [value]="propertyObj.name">
+              <mat-select formControlName="property">
+                <mat-option *ngFor="let property of properties" [value]="property">
                   {{property.name}}
                 </mat-option>
               </mat-select>
@@ -22,7 +22,7 @@
             <mat-form-field style="margin-left: 2em;">
               <mat-label>Choose an agent</mat-label>
               <mat-select formControlName="agent">
-                <mat-option *ngFor="let agent of agents" [(value)]="agent">
+                <mat-option *ngFor="let agent of agents" [value]="agentObj.name">
                   {{agent.userName}}
                 </mat-option>
               </mat-select>

@@ -78,9 +78,12 @@ export class AppComponent implements AfterViewInit, OnInit {
   constructor(private renderer: Renderer2,
     private apiService: ApiService, private fb: FormBuilder, private dateUpdt: UpdateDateService) {
       this.propertyForm = this.fb.group ({
-        'property': this.propertyObj.name,
+        'property': '',
         'agent': ''
       });
+
+      this.agent = this.agentObj.userName;
+      this.property = this.propertyObj.name;
     }
 
   monthSelected(date) {
@@ -113,7 +116,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
           const firstN = this.appointments.nodes[i].property.user.profile.firstname;
           const name = this.appointments.nodes[i].property.user.profile.name;
-
           this.propertyObj = new Property();
           this.propertyObj.name = this.appointments.nodes[i].property.name;
           this.onPropertyChange();
@@ -128,7 +130,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   onPropertyChange() {
-
+// FLat ohne name kommt ständig rein
         this.propertyForm.get('property').valueChanges.subscribe(val => {
 
               this.propertyObj.name = val;
